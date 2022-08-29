@@ -1,25 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { ThemeContextProvider } from "./context/theme/ThemeContext";
+import { Home } from "./pages/Home";
+import { Route, Routes } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
+import { ChangePassword, EditUserProfile, PublicProfile, UserProfile } from "./pages/Profile";
+import { CreatePost } from "./pages/Post";
+import { Wallet } from "./pages/Wallet";
+
+// import NotFound from "./pages/Error/NotFound";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AnimatePresence>
+      <ThemeContextProvider>
+        <Routes>
+          <Route path="/*" element={<Home />} />
+          <Route path="/post/create" element={<CreatePost />} />
+          
+          <Route path="/profile" element={<PublicProfile />} />
+          <Route path="/profile/:id" element={<UserProfile />} />
+          <Route path="/profile/:id/edit" element={<EditUserProfile />} />
+          <Route path="/profile/change-password" element={<ChangePassword />} />
+          <Route path="/profile/wallet" element={<Wallet />} />
+          {/* <Route path="*" element={<NotFound />} /> */}
+        </Routes>
+      </ThemeContextProvider>
+    </AnimatePresence>
   );
 }
 
