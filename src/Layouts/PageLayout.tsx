@@ -3,12 +3,11 @@ import React from "react";
 import Header from "../components/header/Header";
 import { PageLayoutPropTypes } from "./types";
 
-const PageLayout = ({ children }: PageLayoutPropTypes) => {
+const PageLayout = ({ children, paddingTop }: PageLayoutPropTypes) => {
     return (
         <>
             <Header />
-            <div className="pt-24">
-
+            <div className={paddingTop ? paddingTop : "pt-24"}>
                 {children}
             </div>
             {/* <Footer /> */}
