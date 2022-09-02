@@ -7,12 +7,16 @@ import { ChangePassword, EditUserProfile, PublicProfile, UserProfile } from "./p
 import { CreatePost } from "./pages/Post";
 import { Wallet } from "./pages/Wallet";
 import PrivateRoute from "./pages/auth/PrivateRoute";
+import { Signup } from "./pages/Signup";
+
+
 
 // import NotFound from "./pages/Error/NotFound";
 
 function App() {
   return (
     <AnimatePresence>
+    
       <ThemeContextProvider>
         <Routes>
           <Route path="/*" element={<Home />} />
@@ -21,10 +25,11 @@ function App() {
 
           <Route path="/profile" element={<PublicProfile />} />
           {/* <Route element={<PrivateRoute />}> */}
-            <Route path="/profile/:id" element={<UserProfile />} />
+          <Route path="/profile/:id" element={<UserProfile />} />
           <Route path="/profile/:id/edit" element={<EditUserProfile />} />
           <Route path="/profile/change-password" element={<ChangePassword />} />
           <Route path="/profile/wallet" element={<Wallet />} />
+          <Route path="/signup" element={<Signup />} />
           {/* </Route> */}
           {/* <Route path="*" element={<NotFound />} /> */}
         </Routes>

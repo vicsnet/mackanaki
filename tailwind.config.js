@@ -12,11 +12,12 @@ module.exports = {
     extend: {
       colors: {
         navbarDarkColor: "#04111d",
-        bgDarkColor: "#303339",
+        bgDarkColor: "#1D2225",
         navTextDarkColor: "rgba(255, 255, 255, 0.75)",
         primaryColor: "#2081E2",
         dropdownbgColor: "#abaeb5",
         secondaryColor: "#353841",
+        signupTextColor: "#c1c1c1",
       },
     },
   },

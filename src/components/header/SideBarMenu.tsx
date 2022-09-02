@@ -16,7 +16,7 @@ const SideBarMenu = ({ setShowmenu, showmenu }: { setShowmenu: Function; showmen
                 <Link to="/profile/patrick">
                     <p onClick={() => setShowmenu(false)} className="text-white font-bold text-2xl">PROFILE</p>
                 </Link>
-                <Link to="/">
+                <Link to="/signup">
                     <p onClick={() => setShowmenu(false)} className="text-white font-bold text-2xl">SIGNUP</p>
                 </Link>
                 <Link to="/">

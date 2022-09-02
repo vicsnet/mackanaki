@@ -6,7 +6,7 @@ import { TbWorld } from 'react-icons/tb';
 import { FaFacebookF } from 'react-icons/fa';
 import { FiMoreHorizontal } from 'react-icons/fi';
 import { GoLocation } from 'react-icons/go';
-import { BsInstagram, BsTwitter, BsFillTelephoneFill, BsShareFill, BsArrowDown } from 'react-icons/bs';
+import { BsInstagram, BsTwitter, BsFillTelephoneFill, BsShareFill } from 'react-icons/bs';
 import PageLayout from '../../Layouts/PageLayout';
 import { MdRefresh } from 'react-icons/md';
 import ProfilePostCard from '../../components/post/ProfilePostCard';
@@ -113,7 +113,7 @@ const PublicProfile = () => {
 
 
           {/* POST CONTAINER START */}
-          <div className="flex flex-row mb-10 gap-5 justify-center mx-2 flex-wrap">
+          <div className="flex flex-row mb-10 gap-5 lg:justify-start justify-center mx-2 flex-wrap">
             {/* POST CARD START */}
             <ProfilePostCard />
             <ProfilePostCard />
