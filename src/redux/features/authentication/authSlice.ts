@@ -7,6 +7,7 @@ const user = JSON.parse(localStorage.getItem("user") as string);
 
 const initialState: IAuthState = {
     user: user ? user : null,
+    // user: {},
     status: "loading"
 };
 

@@ -15,7 +15,7 @@ import { Signup } from "./pages/Signup";
 
 function App() {
   return (
-    <AnimatePresence>
+    <AnimatePresence exitBeforeEnter>
     
       <ThemeContextProvider>
         <Routes>

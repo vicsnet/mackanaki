@@ -1,10 +1,11 @@
+import { motion } from 'framer-motion';
 import { AiFillStar } from 'react-icons/ai';
 import { FaUserCircle } from 'react-icons/fa';
 
 
 const MenuPostActivity = () => {
     return (
-        <div style={{ clipPath: "polygon(0px 8%, 70% 8%, 74% 2%, 78% 8%, 100% 8%, 100% 100%, 0px 100%)" }} className="hidden lg:flex flex-col absolute top-[48px] drop-shadow-lg rounded-lg right-[12.3rem] w-[500px] h-50 bg-dropdownbgColor pt-[3rem] pl-8 h-[400px]">
+        <motion.div initial={{ opacity: 0, scale: 0.6 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.6 }} style={{ clipPath: "polygon(0px 8%, 70% 8%, 74% 2%, 78% 8%, 100% 8%, 100% 100%, 0px 100%)" }} className="hidden lg:flex flex-col absolute top-[48px] drop-shadow-lg rounded-lg right-[12.3rem] w-[500px] h-50 bg-dropdownbgColor pt-[3rem] pl-8 h-[400px]">
 
             <div className="scroll-m-0.5 overflow-y-auto flex flex-col gap-5 h-[330px] pr-8">
 
@@ -78,7 +79,7 @@ const MenuPostActivity = () => {
 
 
             </div>
-        </div>
+        </motion.div>
     );
 };
 

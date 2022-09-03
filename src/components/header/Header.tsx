@@ -6,25 +6,38 @@ import { AiOutlineMessage } from 'react-icons/ai';
 import MenuPostActivity from './MenuPostActivity';
 import MenuPostMessages from './MenuPostMessages';
 import SideBarMenu from './SideBarMenu';
+import MenuProfile from './MenuProfile';
+import useAuth from '../../hooks/useAuth';
 
 const Header = () => {
     const [showmenu, setShowmenu] = useState(false);
     const [showActivityDropdown, setActivityShowdropdown] = useState(false);
     const [showMessagesDropdown, setMessagesShowdropdown] = useState(false);
     const [showSearch, setShowSearch] = useState(false);
+    const [showProfileDropdown, setShowProfileDropdown] = useState(false);
+    const { user } = useAuth();
 
     const openActivityMenu = () => {
         setActivityShowdropdown(!showActivityDropdown);
         setMessagesShowdropdown(false);
+        setShowProfileDropdown(false);
     };
     const openMessgageMenu = () => {
         setMessagesShowdropdown(!showMessagesDropdown);
         setActivityShowdropdown(false);
+        setShowProfileDropdown(false);
     };
 
     const showSideMenu = () => {
-        setShowmenu(!showmenu)
-        setShowSearch(false)
+        setShowmenu(!showmenu);
+        setShowSearch(false);
+        setShowProfileDropdown(false);
+    };
+
+    const showProfile = () => {
+        setShowProfileDropdown(!showProfileDropdown);
+        setActivityShowdropdown(false);
+        setMessagesShowdropdown(false);
     };
 
     return (
@@ -60,9 +73,12 @@ const Header = () => {
                         <img src="/icons/users.png" className='cursor-pointer w-7 h-7' alt="logo" />
                     </Link>
 
-                    <Link to="/profile/patrick">
+                    {user ? <Link to="/profile/patrick">
                         <img src="/icons/user.png" className='cursor-pointer w-7 h-7' alt="logo" />
-                    </Link>
+                    </Link> :
+                        <img src="/icons/user.png" onClick={showProfile} className='cursor-pointer w-7 h-7' alt="logo" />
+                    }
+
 
                     <Link to="/profile/wallet">
                         <img src="/icons/wallet.png" className='cursor-pointer w-7 h-7' alt="logo" />
@@ -86,6 +102,10 @@ const Header = () => {
 
                 {/* DROP DOWN MENU MESSAGES */}
                 {showMessagesDropdown && <MenuPostMessages />}
+
+
+                {/* DROP DOWN PROFILE */}
+                {showProfileDropdown && <MenuProfile />}
 
             </div>
             {showSearch &&
