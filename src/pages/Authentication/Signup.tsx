@@ -31,8 +31,8 @@ const Signup = () => {
         <Fragment>
             <PageLayout>
                 {/* SIGNUP CONTAINER START */}
-                <div className="flex justify-center w-screen items-center p-6">
-                    <div className="rounded-3xl shadow-lg shadow-zinc-900 bg-secondaryColor w-[40rem] h-auto py-10 px-4">
+                <div className="flex justify-center items-center p-6">
+                    <div className="rounded-3xl shadow-lg shadow-zinc-900 bg-secondaryColor h-auto py-10 px-4">
                         <div className="flex flex-col justify-center items-center gap-2">
                             <Link to="/">
                                 <img src="/icons/shortlogo.png" alt="shortlogo" className="w-12 mb-2" />
@@ -46,7 +46,7 @@ const Signup = () => {
                             {showNext ?
                                 <StepTwoForm submitForm={submitForm} />
                                 :
-                               <StepOneForm nextForm={nextForm}/>
+                                <StepOneForm nextForm={nextForm} />
                             }
                         </div>
                         {/* FORM END */}

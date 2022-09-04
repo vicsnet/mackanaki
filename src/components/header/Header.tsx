@@ -8,6 +8,7 @@ import MenuPostMessages from './MenuPostMessages';
 import SideBarMenu from './SideBarMenu';
 import MenuProfile from './MenuProfile';
 import useAuth from '../../hooks/useAuth';
+import MobileSearchInput from './MobileSearchInput';
 
 const Header = () => {
     const [showmenu, setShowmenu] = useState(false);
@@ -16,6 +17,8 @@ const Header = () => {
     const [showSearch, setShowSearch] = useState(false);
     const [showProfileDropdown, setShowProfileDropdown] = useState(false);
     const { user } = useAuth();
+
+    
 
     const openActivityMenu = () => {
         setActivityShowdropdown(!showActivityDropdown);
@@ -109,14 +112,7 @@ const Header = () => {
 
             </div>
             {showSearch &&
-                <div className="absolute top-24 bg-slate-800 mx-auto shadow-2xl p-5 w-full">
-                    <div className="flex items-center p-2 gap-2 overflow-hidden rounded-lg w-full py-4 h-11 ">
-                        <input type="text" className="outline-none bg-transparent text-navTextDarkColor text-sm w-full" placeholder="Search items, collections and accounts" />
-                        <div className="bg-primaryColor cursor-pointer p-2 rounded-full">
-                            <BiSearch className="text-white text-2xl" />
-                        </div>
-                    </div>
-                </div>
+               <MobileSearchInput/>
             }
 
         </nav>

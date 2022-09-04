@@ -6,8 +6,7 @@ import { AnimatePresence } from "framer-motion";
 import { ChangePassword, EditUserProfile, PublicProfile, UserProfile } from "./pages/Profile";
 import { CreatePost } from "./pages/Post";
 import { Wallet } from "./pages/Wallet";
-import PrivateRoute from "./pages/auth/PrivateRoute";
-import { Signup } from "./pages/Signup";
+import { Signup, Login, EmailVerification } from "./pages/Authentication";
 
 
 
@@ -16,7 +15,7 @@ import { Signup } from "./pages/Signup";
 function App() {
   return (
     <AnimatePresence exitBeforeEnter>
-    
+
       <ThemeContextProvider>
         <Routes>
           <Route path="/*" element={<Home />} />
@@ -30,6 +29,8 @@ function App() {
           <Route path="/profile/change-password" element={<ChangePassword />} />
           <Route path="/profile/wallet" element={<Wallet />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/verify-email" element={<EmailVerification />} />
           {/* </Route> */}
           {/* <Route path="*" element={<NotFound />} /> */}
         </Routes>
