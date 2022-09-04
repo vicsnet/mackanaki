@@ -5,6 +5,7 @@ interface IFormInput {
     type?: string;
     name: string;
     onChange?: React.ChangeEventHandler<HTMLInputElement>;
+    className?: string;
 }
 interface IFormSelect {
     label: string;

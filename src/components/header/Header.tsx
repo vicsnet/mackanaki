@@ -7,8 +7,8 @@ import MenuPostActivity from './MenuPostActivity';
 import MenuPostMessages from './MenuPostMessages';
 import SideBarMenu from './SideBarMenu';
 import MenuProfile from './MenuProfile';
-import useAuth from '../../hooks/useAuth';
 import MobileSearchInput from './MobileSearchInput';
+import useAuth from '../../hooks/useAuth';
 
 const Header = () => {
     const [showmenu, setShowmenu] = useState(false);

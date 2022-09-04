@@ -14,11 +14,11 @@ const StepTwoForm = ({ submitForm }: { submitForm: Function; }) => {
                     <FormInput label="State" name="state" placeholder="State" htmlFor="state" type="text" />
                 </div>
 
-                <div className="w-full">
+        
                     <FormSelect label="Category" htmlFor="category" />
-                </div>
 
-                <div className="flex w-[30rem] mt-8 flex-col justify-center items-center gap-2 mx-auto">
+
+                <div className="md:w-[400px] flex mt-8 flex-col justify-center items-center gap-2 mx-auto">
                     <p className="mx-4 text-signupTextColor text-sm text-center">By signing up to Thombrix platform you understand and agree with our <Link to="#">
                         <span className="text-primaryColor underline">Term of Service</span>
                     </Link> and <Link to="#"><span className="text-primaryColor underline">Privacy Policy</span></Link></p>

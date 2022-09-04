@@ -2,105 +2,55 @@ import React, { Fragment, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PageLayout from '../../Layouts/PageLayout';
 import { toast } from 'react-toastify';
-import { Lang, useFormInputValidation } from "react-form-input-validation";
+// import { useFormInputValidation } from "react-form-input-validation";
 
 
 import FormInput from '../../components/form/FormInput';
 import Button from '../../components/ui/Button';
+import useFormInputValidation from '../../hooks/useFormInputValidation';
 
 
 
 const Login = () => {
 
-   
-    const [formValue, setFormValue] = useState<ILoginForm>({
-        email: '',
-        password: '',
-    });
-    const [error, setError] = useState({});
-
     const [fields, errors, form] = useFormInputValidation({
-        customer_name: "",
-        email_address: "",
-        phone_number: "",
+        email: "",
+        password: "",
     }, {
-        customer_name: "required",
-        email_address: "required|email",
-        phone_number: "required|numeric|digits_between:10,12"
+        email: "required|email",
+        password: "required|maxLength:6"
     });
-
-    const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        const isValid = await form.validate(event);
-        if (isValid) {
-            // console.log(fields, errors);
-            // Perform api call here
-        }
-    };
-    // const [changeTestValue, setChangeTestValue] = useState('');
 
 
     // useEffect(() => {
-    //         if (formValue.email.length === 0) {
-    //             validateData({ email: 'email', message: 'Email is required' });
-    //         }
-    //         if (formValue.password.length < 1) {
-    //             validateData({ password: 'password', message: 'Password is required' });
-    //         }
+    //     form.isErrorEmpty();
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, []);
+    if (form.isFormValid) {
+        console.log('Form is valid');
+    } else {
+        console.log('Invalid form');
+        console.log(errors);
+    }
 
-    // }, [formValue.email, formValue.password]);
+    // console.log(fields, errors, form);
+    // useEffect(() => {
+    //     if (form.isValidForm) {
+    //         // Perform api call here
+    //     }
+    // }, [errors, fields, form]);
 
 
 
-    // const validateData = ({ prop, message }: { [prop: string]: string; message: string; }) => {
-    //     setError((prev) => ({
-    //         ...prev,
-    //         [prop]: message
-    //     }));
+    // const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    //     const isValid = await form.validate(event);
+    //     if (isValid) {
+    //         console.log(fields, errors);
+    //         // Perform api call here
+    //     }
     // };
+    // const [changeTestValue, setChangeTestValue] = useState('');
 
-    const changeFormValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-        // if (formValue.email.length === 0) {
-        //     validateData({ email: 'email', message: 'Email is required' });
-        // }
-        // if (formValue.password.length < 1) {
-        //     validateData({ password: 'password', message: 'Password is required' });
-        // }
-        // setFormValue((prev) => ({
-        //     ...prev,
-        //     [e.target.name]: e.target.value
-        // }));
-    };
-    // const errorExist = Object.keys(error).length !== 0;
-    // console.log(error);
-
-    const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
-        // e.preventDefault();
-        // console.log(formValue);
-        // if (Object.keys(error).length === 0) {
-        //     toast.success('Form submitted successfully', {
-        //         position: "top-right",
-        //         autoClose: 5000,
-        //         hideProgressBar: false,
-        //         closeOnClick: true,
-        //         pauseOnHover: true,
-        //         draggable: true,
-        //         progress: undefined,
-        //     });
-        // } else {
-        //     Object.entries(error).forEach(([name, message]) => {
-        //         toast.error(message, {
-        //             position: "top-right",
-        //             autoClose: 5000,
-        //             hideProgressBar: false,
-        //             closeOnClick: true,
-        //             pauseOnHover: true,
-        //             draggable: true,
-        //             progress: undefined,
-        //         });
-        //     });
-
-        // }
-    };
     return (
         <Fragment>
             <PageLayout>
@@ -116,28 +66,32 @@ const Login = () => {
                         </div>
 
                         {/* FORM START */}
-                        <div className="mx-8 mt-7">
-                            <form onSubmit={(e) => submitForm(e)}>
+                        <div className="mx-8 mt-7 md:w-[30rem]">
+                            <form noValidate
+                                autoComplete="off"
+                                onSubmit={form.onSubmit}
+                            >
                                 <div className="flex flex-col gap-7 ">
-                                    <div className="w-full">
-                                        <FormInput label="Email"
-                                            name="email"
-                                            placeholder="Email"
-                                            onChange={changeFormValue}
-                                            htmlFor="email"
-                                            type="email" />
-                                    </div>
+
+                                    <FormInput label="Email"
+                                        name="email"
+                                        placeholder="Email"
+                                        className=""
+                                        htmlFor="email"
+                                        onChange={(e) => form.handleChangeEvent(e)}
+                                        type="email" />
+
 
                                     <FormInput label="Password" placeholder="Password"
                                         name="password"
-                                        onChange={changeFormValue}
+                                        onChange={(e) => form.handleChangeEvent(e)}
                                         htmlFor="password" type="password" />
-                                    <div className="flex w-[30rem] mt-4 flex-col justify-center items-center gap-2 mx-auto">
+                                    <div className="flex mt-4 flex-col justify-center items-center gap-2 mx-auto">
                                         <p className="mx-4 text-signupTextColor text-sm text-center">Don't have an account? <Link to="/verify-email">
                                             <span className="text-primaryColor underline">Create an account</span>
                                         </Link></p>
 
-                                        <Button name="Login" className="mx-auto" />
+                                        <Button name="Login" disabled={!form.isFormValid} className="mx-auto" />
                                     </div>
                                 </div>
                             </form>

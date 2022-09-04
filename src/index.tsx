@@ -13,7 +13,7 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <Provider store={store}>
       <ToastContainer
         position="top-right"
@@ -31,6 +31,6 @@ root.render(
         <App />
       </Router>
     </Provider>
-  </React.StrictMode>
+  // </React.StrictMode>
 );
 
