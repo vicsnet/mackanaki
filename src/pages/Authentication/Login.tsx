@@ -17,17 +17,17 @@ const Login = () => {
         email: "",
         password: "",
     }, {
-        email: "required|email",
+        email: "required",
         password: "required|maxLength:6"
     });
 
 
-    if (form.isFormValid) {
-        console.log(fields, errors);
+    // if (form.isFormValid) {
+    //     console.log(fields, errors);
 
-    } else {
-        console.log(errors);
-    }
+    // } else {
+    //     console.log(errors);
+    // }
 
 
     // const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

@@ -1,10 +1,15 @@
+import validator from 'validator';
+
+
 export default class InputValidator {
     private _setFields: React.Dispatch<React.SetStateAction<IFormFieldObj>>;
     private _fields: IFormFieldObj;
     private _errorBag: React.Dispatch<React.SetStateAction<IErrors | null>>;
     private _errors: IErrors | null;
     private _rules: IRules;
-    _tempFieldBag: { [props: string]: string; } = {};
+    private _tempFieldBag: { [props: string]: string; } = {};
+    private _tempPasswordValue: string = "";
+
 
 
     constructor (setFields: React.Dispatch<React.SetStateAction<IFormFieldObj>>, fields: IFormFieldObj, errorBag: React.Dispatch<React.SetStateAction<IErrors | null>>, errors: IRules | null, rules: IRules) {
@@ -14,9 +19,8 @@ export default class InputValidator {
         this._errors = errors;
         this._rules = rules;
 
-        // this._getAllFieldRules();
-
-
+        // this._password('MaxPatrick12.');
+        // console.log(this._confirmPassword('MaxPatrick12.'));
     }
 
     private get _isFieldsAndRulesValid() {
@@ -90,16 +94,154 @@ export default class InputValidator {
                     });
                 }
             }
+
+            if (rule === 'email') {
+                if (this._email(value)) {
+                    this._errorBag((prev) => ({
+                        ...prev,
+                        [keys]: `Invalid ${keys}`
+                    }));
+                } else {
+                    this._errorBag((prev) => {
+                        const copy = { ...prev };
+                        delete copy[keys];
+                        return copy;
+                    });
+                }
+            }
+            
+            if (rule === 'password') {
+                if (this._password(value)) {
+                    this._errorBag((prev) => ({
+                        ...prev,
+                        [keys]: `${keys} is not strong`
+                    }));
+                } else {
+                    this._errorBag((prev) => {
+                        const copy = { ...prev };
+                        delete copy[keys];
+                        return copy;
+                    });
+                }
+            }
+            if (rule === 'comfirm_password') {
+                if (this._confirmPassword(value)) {
+                    this._errorBag((prev) => ({
+                        ...prev,
+                        [keys]: `That ${keys} doesn't match.`
+                    }));
+                } else {
+                    this._errorBag((prev) => {
+                        const copy = { ...prev };
+                        delete copy[keys];
+                        return copy;
+                    });
+                }
+            }
+            if (rule === 'email') {
+                if (this._email(value)) {
+                    this._errorBag((prev) => ({
+                        ...prev,
+                        [keys]: `Invalid ${keys}`
+                    }));
+                } else {
+                    this._errorBag((prev) => {
+                        const copy = { ...prev };
+                        delete copy[keys];
+                        return copy;
+                    });
+                }
+            }
+            if (rule === 'email') {
+                if (this._email(value)) {
+                    this._errorBag((prev) => ({
+                        ...prev,
+                        [keys]: `Invalid ${keys}`
+                    }));
+                } else {
+                    this._errorBag((prev) => {
+                        const copy = { ...prev };
+                        delete copy[keys];
+                        return copy;
+                    });
+                }
+            }
+
         });
 
     }
 
+
+    // ******* INPUT VALIDATORS START ********* //
     private _required(value: string): boolean {
         if (value.trim().length < 1) {
             return true;
         }
         return false;
     }
+
+
+    private _email(value: string) {
+        if (!validator.isEmail(value)) {
+            return true;
+        }
+        return false;
+    }
+
+    private _password(value: string) {
+        let result = validator.isStrongPassword(value, { minLength: 8, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 1, returnScore: false });
+        if (result) {
+            this._tempPasswordValue = value;
+            return true;
+        }
+        this._tempPasswordValue = "";
+        return false;
+
+    }
+
+    private _confirmPassword(value: string) {
+        if (this._tempPasswordValue === value) {
+            return true;
+        }
+        return false;
+    }
+
+    private _minLength(minLengthValue: string, value: string) {
+        const minLengthArr = minLengthValue.split(':');
+        const min = minLengthArr[minLengthArr.length - 1];
+        if (value.length <= +min) {
+            return true;
+        }
+        return false;
+    }
+
+    private _maxLength(maxLengthValue: string, value: string) {
+        const maxLengthArr = maxLengthValue.split(':');
+        const max = maxLengthArr[maxLengthArr.length - 1];
+        if (value.length <= +max) {
+            return true;
+        }
+        return false;
+    }
+
+    private _min(minLength: string, value: number) {
+        const minArr = minLength.split(':');
+        const min = minArr[minArr.length - 1];
+        if (value <= +min) {
+            return true;
+        }
+        return false;
+    }
+
+    private _max(maxLength: string, value: number) {
+        const maxArr = maxLength.split(':');
+        const max = maxArr[maxArr.length - 1];
+        if (value <= +max) {
+            return true;
+        }
+        return false;
+    }
+    // ******* INPUT VALIDATORS END ******** //
 
 
     handleChangeEvent(e: React.ChangeEvent<HTMLInputElement>) {
