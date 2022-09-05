@@ -4,7 +4,7 @@ export default class InputValidator {
     private _errorBag: React.Dispatch<React.SetStateAction<IErrors | null>>;
     private _errors: IErrors | null;
     private _rules: IRules;
-    _tempErrorBag: { [props: string]: string; } = {};
+    _tempFieldBag: { [props: string]: string; } = {};
 
 
     constructor (setFields: React.Dispatch<React.SetStateAction<IFormFieldObj>>, fields: IFormFieldObj, errorBag: React.Dispatch<React.SetStateAction<IErrors | null>>, errors: IRules | null, rules: IRules) {
@@ -14,7 +14,9 @@ export default class InputValidator {
         this._errors = errors;
         this._rules = rules;
 
-        this.getAllFieldRules();
+        // this._getAllFieldRules();
+
+
     }
 
     private get _isFieldsAndRulesValid() {
@@ -24,7 +26,7 @@ export default class InputValidator {
     }
 
 
-    getAllFieldRules() {
+    _getAllFieldRules() {
         if (this._isFieldsAndRulesValid) {
             let obj = Object.keys(this._fields).reduce((prev, current) => {
                 if (Object.keys(this._rules).includes(current)) {
@@ -33,38 +35,62 @@ export default class InputValidator {
                 return prev;
             }, {} as { [props: string]: string; });
 
-            
+            Object.entries(obj).forEach(([key, rules]) => {
+                const rulesArr = rules.split('|');
+                if (Object.keys(this._tempFieldBag).includes(key)) {
+                    console.log(this._tempFieldBag[key]);
+                    this._validate(rulesArr, key, this._tempFieldBag[key]);
+                }
+            });
+        }
+    }
 
-
-            // console.log(obj);
+    _getFieldsValuesOnLoad() {
+        if (this._isFieldsAndRulesValid) {
+            let obj = Object.keys(this._fields).reduce((prev, current) => {
+                if (Object.keys(this._rules).includes(current)) {
+                    prev[current] = this._rules[current];
+                }
+                return prev;
+            }, {} as { [props: string]: string; });
+            Object.entries(obj).forEach(([key, rules]) => {
+                const rulesArr = rules.split('|');
+                if (Object.values(rulesArr).includes('required')) {
+                    this._errorBag((prev) => ({
+                        ...prev,
+                        [key]: `${key} is required`
+                    }));
+                }
+            });
         }
     }
 
     get isFormValid(): boolean {
-        if (this._errors === null) return false;
+        if (this._errors === null) return true;
         if (Object.keys(this._errors).length === 0) return true;
         return false;
     }
 
 
-    isErrorEmpty() {
-        this._validate('required', 'email', this._fields['email']);
-    }
 
+    private _validate(rules: string[], keys: string, value: string) {
 
-
-
-    private _validate(rules: string, keys: string, value: string) {
-        if (rules === 'required') {
-            if (this._required(value)) {
-                this._errorBag((prev) => ({
-                    ...prev,
-                    [keys]: `${keys} is required`
-                }));
-            } else {
-                this._errorBag({});
+        rules.forEach(rule => {
+            if (rule === 'required') {
+                if (this._required(value)) {
+                    this._errorBag((prev) => ({
+                        ...prev,
+                        [keys]: `${keys} is required`
+                    }));
+                } else {
+                    this._errorBag((prev) => {
+                        const copy = { ...prev };
+                        delete copy[keys];
+                        return copy;
+                    });
+                }
             }
-        }
+        });
 
     }
 
@@ -75,12 +101,16 @@ export default class InputValidator {
         return false;
     }
 
+
     handleChangeEvent(e: React.ChangeEvent<HTMLInputElement>) {
         this._setFields((prev) => ({
             ...prev,
             [e.target.name]: e.target.value
         }));
-        this._validate('required', 'email', e.target.value);
+
+        // this._tempFieldBag = { ...this._tempFieldBag, [e.target.name]: e.target.value, 'error': 'new field is required' };
+        this._tempFieldBag = { ...this._tempFieldBag, [e.target.name]: e.target.value };
+        this._getAllFieldRules();
     };
 
     onSubmit(e: React.FormEvent<HTMLFormElement>) {

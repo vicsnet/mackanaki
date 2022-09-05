@@ -22,24 +22,12 @@ const Login = () => {
     });
 
 
-    // useEffect(() => {
-    //     form.isErrorEmpty();
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, []);
     if (form.isFormValid) {
-        console.log('Form is valid');
+        console.log(fields, errors);
+
     } else {
-        console.log('Invalid form');
         console.log(errors);
     }
-
-    // console.log(fields, errors, form);
-    // useEffect(() => {
-    //     if (form.isValidForm) {
-    //         // Perform api call here
-    //     }
-    // }, [errors, fields, form]);
-
 
 
     // const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
