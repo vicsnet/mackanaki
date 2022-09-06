@@ -1,4 +1,5 @@
 import validator from 'validator';
+import { toast } from 'react-toastify';
 
 
 export default class InputValidator {
@@ -20,7 +21,7 @@ export default class InputValidator {
         this._rules = rules;
 
         // this._password('MaxPatrick12.');
-        // console.log(this._confirmPassword('MaxPatrick12.'));
+        // console.log(this._minLength('min:3', '4kuo'));
     }
 
     private get _isFieldsAndRulesValid() {
@@ -42,7 +43,6 @@ export default class InputValidator {
             Object.entries(obj).forEach(([key, rules]) => {
                 const rulesArr = rules.split('|');
                 if (Object.keys(this._tempFieldBag).includes(key)) {
-                    console.log(this._tempFieldBag[key]);
                     this._validate(rulesArr, key, this._tempFieldBag[key]);
                 }
             });
@@ -75,100 +75,146 @@ export default class InputValidator {
         return false;
     }
 
-
+    private _arratToStringLastPosition(rule: string) {
+        const result = rule.split(':');
+        return result[result.length - 1];
+    }
 
     private _validate(rules: string[], keys: string, value: string) {
 
-        rules.forEach(rule => {
-            if (rule === 'required') {
-                if (this._required(value)) {
-                    this._errorBag((prev) => ({
-                        ...prev,
-                        [keys]: `${keys} is required`
-                    }));
-                } else {
-                    this._errorBag((prev) => {
-                        const copy = { ...prev };
-                        delete copy[keys];
-                        return copy;
-                    });
-                }
+        if (rules.includes('required')) {
+            if (this._required(value)) {
+                this._errorBag((prev) => ({
+                    ...prev,
+                    [keys]: `${keys} is required`
+                }));
+                return;
+            } else {
+                this._errorBag((prev) => {
+                    const copy = { ...prev };
+                    delete copy[keys];
+                    return copy;
+                });
             }
+        }
 
-            if (rule === 'email') {
-                if (this._email(value)) {
-                    this._errorBag((prev) => ({
-                        ...prev,
-                        [keys]: `Invalid ${keys}`
-                    }));
-                } else {
-                    this._errorBag((prev) => {
-                        const copy = { ...prev };
-                        delete copy[keys];
-                        return copy;
-                    });
-                }
+        if (rules.includes('email')) {
+            if (this._email(value)) {
+                this._errorBag((prev) => ({
+                    ...prev,
+                    [keys]: `Invalid ${keys}`
+                }));
+                return;
+            } else {
+                this._errorBag((prev) => {
+                    const copy = { ...prev };
+                    delete copy[keys];
+                    return copy;
+                });
             }
-            
-            if (rule === 'password') {
-                if (this._password(value)) {
-                    this._errorBag((prev) => ({
-                        ...prev,
-                        [keys]: `${keys} is not strong`
-                    }));
-                } else {
-                    this._errorBag((prev) => {
-                        const copy = { ...prev };
-                        delete copy[keys];
-                        return copy;
-                    });
-                }
-            }
-            if (rule === 'comfirm_password') {
-                if (this._confirmPassword(value)) {
-                    this._errorBag((prev) => ({
-                        ...prev,
-                        [keys]: `That ${keys} doesn't match.`
-                    }));
-                } else {
-                    this._errorBag((prev) => {
-                        const copy = { ...prev };
-                        delete copy[keys];
-                        return copy;
-                    });
-                }
-            }
-            if (rule === 'email') {
-                if (this._email(value)) {
-                    this._errorBag((prev) => ({
-                        ...prev,
-                        [keys]: `Invalid ${keys}`
-                    }));
-                } else {
-                    this._errorBag((prev) => {
-                        const copy = { ...prev };
-                        delete copy[keys];
-                        return copy;
-                    });
-                }
-            }
-            if (rule === 'email') {
-                if (this._email(value)) {
-                    this._errorBag((prev) => ({
-                        ...prev,
-                        [keys]: `Invalid ${keys}`
-                    }));
-                } else {
-                    this._errorBag((prev) => {
-                        const copy = { ...prev };
-                        delete copy[keys];
-                        return copy;
-                    });
-                }
-            }
+        }
 
-        });
+        if (rules.includes('password')) {
+            if (this._password(value)) {
+                this._errorBag((prev) => ({
+                    ...prev,
+                    [keys]: `${keys} is not strong`
+                }));
+                return;
+            } else {
+                this._errorBag((prev) => {
+                    const copy = { ...prev };
+                    delete copy[keys];
+                    return copy;
+                });
+            }
+        }
+        // if (rule === 'confirm_password') {
+        //     if (this._confirmPassword(value)) {
+        //         this._errorBag((prev) => ({
+        //             ...prev,
+        //             [keys]: `${keys} doesn't match.`
+        //         }));
+        //     } else {
+        //         this._errorBag((prev) => {
+        //             const copy = { ...prev };
+        //             delete copy[keys];
+        //             return copy;
+        //         });
+        //     }
+        // }
 
+        let minLengthRule = rules.find(value => /minLength:/.test(value));
+        if (typeof minLengthRule !== "undefined") {
+            const min = this._arratToStringLastPosition(minLengthRule);
+            if (this._minLength(min, value)) {
+                this._errorBag((prev) => ({
+                    ...prev,
+                    [keys]: `Input value should be greater than or equal to ${min} characters`
+                }));
+                return;
+            } else {
+                this._errorBag((prev) => {
+                    const copy = { ...prev };
+                    delete copy[keys];
+                    return copy;
+                });
+            }
+        }
+
+        let maxLengthRule = rules.find(value => /maxLength:/.test(value));
+        if (typeof maxLengthRule !== "undefined") {
+            const max = this._arratToStringLastPosition(maxLengthRule);
+            if (this._maxLength(max, value)) {
+                this._errorBag((prev) => ({
+                    ...prev,
+                    [keys]: `Input value should be less than or equal to ${max} characters`
+                }));
+                return;
+            } else {
+                this._errorBag((prev) => {
+                    const copy = { ...prev };
+                    delete copy[keys];
+                    return copy;
+                });
+            }
+        }
+
+        let minRule = rules.find(value => /min:/.test(value));
+        if (typeof minRule !== "undefined") {
+            const min = this._arratToStringLastPosition(minRule);
+            if (this._min(min, value)) {
+                this._errorBag((prev) => ({
+                    ...prev,
+                    [keys]: `Input value should be greater than or equal to ${min}`
+                }));
+                return;
+            } else {
+                this._errorBag((prev) => {
+                    const copy = { ...prev };
+                    delete copy[keys];
+                    return copy;
+                });
+            }
+        }
+
+        let maxRule = rules.find(value => /max:/.test(value));
+        if (typeof maxRule !== "undefined") {
+            const max = this._arratToStringLastPosition(maxRule);
+            if (this._max(max, value)) {
+                this._errorBag((prev) => ({
+                    ...prev,
+                    [keys]: `Input value should be less than or equal to ${max}`
+                }));
+                return;
+            } else {
+                this._errorBag((prev) => {
+                    const copy = { ...prev };
+                    delete copy[keys];
+                    return copy;
+                });
+            }
+        }
     }
 
 
@@ -190,7 +236,7 @@ export default class InputValidator {
 
     private _password(value: string) {
         let result = validator.isStrongPassword(value, { minLength: 8, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 1, returnScore: false });
-        if (result) {
+        if (!result) {
             this._tempPasswordValue = value;
             return true;
         }
@@ -200,43 +246,35 @@ export default class InputValidator {
     }
 
     private _confirmPassword(value: string) {
-        if (this._tempPasswordValue === value) {
+        if (this._tempPasswordValue !== value) {
             return true;
         }
         return false;
     }
 
     private _minLength(minLengthValue: string, value: string) {
-        const minLengthArr = minLengthValue.split(':');
-        const min = minLengthArr[minLengthArr.length - 1];
-        if (value.length <= +min) {
+        if (value.length < +minLengthValue) {
             return true;
         }
         return false;
     }
 
     private _maxLength(maxLengthValue: string, value: string) {
-        const maxLengthArr = maxLengthValue.split(':');
-        const max = maxLengthArr[maxLengthArr.length - 1];
-        if (value.length <= +max) {
+        if (value.length > +maxLengthValue) {
             return true;
         }
         return false;
     }
 
-    private _min(minLength: string, value: number) {
-        const minArr = minLength.split(':');
-        const min = minArr[minArr.length - 1];
-        if (value <= +min) {
+    private _min(minLength: string, value: string) {
+        if (+value < +minLength) {
             return true;
         }
         return false;
     }
 
-    private _max(maxLength: string, value: number) {
-        const maxArr = maxLength.split(':');
-        const max = maxArr[maxArr.length - 1];
-        if (value <= +max) {
+    private _max(maxLength: string, value: string) {
+        if (+value > +maxLength) {
             return true;
         }
         return false;
@@ -249,40 +287,79 @@ export default class InputValidator {
             ...prev,
             [e.target.name]: e.target.value
         }));
-
-        // this._tempFieldBag = { ...this._tempFieldBag, [e.target.name]: e.target.value, 'error': 'new field is required' };
         this._tempFieldBag = { ...this._tempFieldBag, [e.target.name]: e.target.value };
         this._getAllFieldRules();
     };
 
-    onSubmit(e: React.FormEvent<HTMLFormElement>) {
-        e.preventDefault();
-        console.log('Submitted');
-        // if (Object.keys(error).length === 0) {
-        //     toast.success('Form submitted successfully', {
-        //         position: "top-right",
-        //         autoClose: 5000,
-        //         hideProgressBar: false,
-        //         closeOnClick: true,
-        //         pauseOnHover: true,
-        //         draggable: true,
-        //         progress: undefined,
-        //     });
-        // } else {
-        //     Object.entries(error).forEach(([name, message]) => {
-        //         toast.error(message, {
-        //             position: "top-right",
-        //             autoClose: 5000,
-        //             hideProgressBar: false,
-        //             closeOnClick: true,
-        //             pauseOnHover: true,
-        //             draggable: true,
-        //             progress: undefined,
-        //         });
-        //     });
 
-        // }
+
+
+
+    customToast({ type, message }: IToast) {
+
+        if (type === 'success') {
+            toast.success(message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        } else if (type === 'warning') {
+            toast.warning(message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        } else if (type === 'error') {
+            toast.error(message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        } else {
+
+        }
+        return [type, message];
     };
+    // onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    //     e.preventDefault();
+    //     console.log('Submitted');
+    //     // if (Object.keys(error).length === 0) {
+    //     //     toast.success('Form submitted successfully', {
+    //     //         position: "top-right",
+    //     //         autoClose: 5000,
+    //     //         hideProgressBar: false,
+    //     //         closeOnClick: true,
+    //     //         pauseOnHover: true,
+    //     //         draggable: true,
+    //     //         progress: undefined,
+    //     //     });
+    //     // } else {
+    //     //     Object.entries(error).forEach(([name, message]) => {
+    //     //         toast.error(message, {
+    //     //             position: "top-right",
+    //     //             autoClose: 5000,
+    //     //             hideProgressBar: false,
+    //     //             closeOnClick: true,
+    //     //             pauseOnHover: true,
+    //     //             draggable: true,
+    //     //             progress: undefined,
+    //     //         });
+    //     //     });
+
+    //     // }
+    // };
 
 
     // const validateData = ({ prop, message }: { [prop: string]: string; message: string; }) => {

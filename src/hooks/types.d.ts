@@ -10,3 +10,7 @@ interface IErrors {
     [props: string]: string;
 }
 
+interface IToast {
+    type: 'error' | 'warning' | 'success';
+    message: string;
+}

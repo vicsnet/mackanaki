@@ -1,14 +1,11 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import PageLayout from '../../Layouts/PageLayout';
-import { toast } from 'react-toastify';
-// import { useFormInputValidation } from "react-form-input-validation";
 
 
 import FormInput from '../../components/form/FormInput';
 import Button from '../../components/ui/Button';
 import useFormInputValidation from '../../hooks/useFormInputValidation';
-
 
 
 const Login = () => {
@@ -17,27 +14,21 @@ const Login = () => {
         email: "",
         password: "",
     }, {
-        email: "required",
-        password: "required|maxLength:6"
+        email: "required|email",
+        password: "required"
     });
-
-
-    // if (form.isFormValid) {
-    //     console.log(fields, errors);
-
-    // } else {
-    //     console.log(errors);
-    // }
-
-
-    // const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    //     const isValid = await form.validate(event);
-    //     if (isValid) {
-    //         console.log(fields, errors);
-    //         // Perform api call here
-    //     }
-    // };
-    // const [changeTestValue, setChangeTestValue] = useState('');
+    
+    
+    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const isValid = form.isFormValid;
+        if (isValid) {
+            // console.log('Submitted');
+            form.customToast({type: "success", message: "Success!"});
+            console.log(fields, errors);
+            // Perform api call here
+        }
+    };
 
     return (
         <Fragment>
@@ -54,31 +45,38 @@ const Login = () => {
                         </div>
 
                         {/* FORM START */}
-                        <div className="mx-8 mt-7 md:w-[30rem]">
+                        <div className="mx-8 md:w-[30rem]">
                             <form noValidate
                                 autoComplete="off"
-                                onSubmit={form.onSubmit}
+                                onSubmit={onSubmit}
                             >
-                                <div className="flex flex-col gap-7 ">
+                                <div className="flex flex-col">
 
                                     <FormInput label="Email"
                                         name="email"
                                         placeholder="Email"
-                                        className=""
+                                        className={errors?.email && "border-red-600 border-2"}
                                         htmlFor="email"
                                         onChange={(e) => form.handleChangeEvent(e)}
-                                        type="email" />
-
+                                        type="email"
+                                    />
+                                    {errors?.email && <span className="text-red-600 text-sm mt-3">{errors?.email}</span>}
 
                                     <FormInput label="Password" placeholder="Password"
                                         name="password"
                                         onChange={(e) => form.handleChangeEvent(e)}
-                                        htmlFor="password" type="password" />
-                                    <div className="flex mt-4 flex-col justify-center items-center gap-2 mx-auto">
+                                        className={errors?.password && "border-red-600 border-2"}
+                                        htmlFor="password"
+                                        type="password"
+                                    />
+                                    {errors?.password && <span className="text-red-600 text-sm mt-3">{errors?.password}</span>}
+
+
+                                    <div className="flex mt-7 flex-col justify-center items-center gap-2 mx-auto">
                                         <p className="mx-4 text-signupTextColor text-sm text-center">Don't have an account? <Link to="/verify-email">
                                             <span className="text-primaryColor underline">Create an account</span>
-                                        </Link></p>
-
+                                        </Link>
+                                        </p>
                                         <Button name="Login" disabled={!form.isFormValid} className="mx-auto" />
                                     </div>
                                 </div>
