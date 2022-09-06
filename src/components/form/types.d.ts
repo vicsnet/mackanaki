@@ -6,10 +6,12 @@ interface IFormInput {
     name: string;
     onChange?: React.ChangeEventHandler<HTMLInputElement>;
     className?: string;
+    errors: string;
 }
 interface IFormSelect {
     label: string;
     htmlFor: string;
+    onChange?: React.ChangeEventHandler<HTMLSelectElement>;
 }
 
 // interface IStepOneForm {

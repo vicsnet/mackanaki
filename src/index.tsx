@@ -20,7 +20,7 @@ root.render(
         autoClose={5000}
         hideProgressBar={false}
         newestOnTop={true}
-        theme="colored"
+        theme="dark"
         closeOnClick
         rtl={false}
         pauseOnFocusLoss

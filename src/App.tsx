@@ -6,7 +6,7 @@ import { AnimatePresence } from "framer-motion";
 import { ChangePassword, EditUserProfile, PublicProfile, UserProfile } from "./pages/Profile";
 import { CreatePost } from "./pages/Post";
 import { Wallet } from "./pages/Wallet";
-import { Signup, Login, EmailVerification } from "./pages/Authentication";
+import { Signup, Login, EmailVerification, SignupOptions } from "./pages/Authentication";
 
 
 
@@ -28,6 +28,7 @@ function App() {
           <Route path="/profile/:id/edit" element={<EditUserProfile />} />
           <Route path="/profile/change-password" element={<ChangePassword />} />
           <Route path="/profile/wallet" element={<Wallet />} />
+          <Route path="/signup-options" element={<SignupOptions />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/verify-email" element={<EmailVerification />} />

@@ -49,26 +49,6 @@ export default class InputValidator {
         }
     }
 
-    // _getFieldsValuesOnLoad() {
-    //     if (this._isFieldsAndRulesValid) {
-    //         let obj = Object.keys(this._fields).reduce((prev, current) => {
-    //             if (Object.keys(this._rules).includes(current)) {
-    //                 prev[current] = this._rules[current];
-    //             }
-    //             return prev;
-    //         }, {} as { [props: string]: string; });
-    //         Object.entries(obj).forEach(([key, rules]) => {
-    //             const rulesArr = rules.split('|');
-    //             if (Object.values(rulesArr).includes('required')) {
-    //                 this._errorBag((prev) => ({
-    //                     ...prev,
-    //                     [key]: `${key} is required`
-    //                 }));
-    //             }
-    //         });
-    //     }
-    // }
-
     get isFormValid(): boolean {
         if (Object.keys(this._errors).length === 0) return false;
         return true;
@@ -293,14 +273,10 @@ export default class InputValidator {
     };
 
 
-
-
-
     customToast({ type, message }: IToast) {
 
         if (type === 'success') {
             toast.success(message, {
-                position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
                 closeOnClick: true,
@@ -310,7 +286,6 @@ export default class InputValidator {
             });
         } else if (type === 'warning') {
             toast.warning(message, {
-                position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
                 closeOnClick: true,
@@ -320,7 +295,6 @@ export default class InputValidator {
             });
         } else if (type === 'error') {
             toast.error(message, {
-                position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
                 closeOnClick: true,
@@ -333,47 +307,4 @@ export default class InputValidator {
         }
         return [type, message];
     };
-    // onSubmit(e: React.FormEvent<HTMLFormElement>) {
-    //     e.preventDefault();
-    //     console.log('Submitted');
-    //     // if (Object.keys(error).length === 0) {
-    //     //     toast.success('Form submitted successfully', {
-    //     //         position: "top-right",
-    //     //         autoClose: 5000,
-    //     //         hideProgressBar: false,
-    //     //         closeOnClick: true,
-    //     //         pauseOnHover: true,
-    //     //         draggable: true,
-    //     //         progress: undefined,
-    //     //     });
-    //     // } else {
-    //     //     Object.entries(error).forEach(([name, message]) => {
-    //     //         toast.error(message, {
-    //     //             position: "top-right",
-    //     //             autoClose: 5000,
-    //     //             hideProgressBar: false,
-    //     //             closeOnClick: true,
-    //     //             pauseOnHover: true,
-    //     //             draggable: true,
-    //     //             progress: undefined,
-    //     //         });
-    //     //     });
-
-    //     // }
-    // };
-
-
-    // const validateData = ({ prop, message }: { [prop: string]: string; message: string; }) => {
-    //     setError((prev) => ({
-    //         ...prev,
-    //         [prop]: message
-    //     }));
-    // };
-
-
-    // const errorExist = Object.keys(error).length !== 0;
-    // console.log(error);
-
-
-
 }
