@@ -5,23 +5,23 @@ import { toast } from 'react-toastify';
 export default class InputValidator {
     private _setFields: React.Dispatch<React.SetStateAction<IFormFieldObj>>;
     private _fields: IFormFieldObj;
-    private _errorBag: React.Dispatch<React.SetStateAction<IErrors | null>>;
-    private _errors: IErrors | null;
+    private _errorBag: React.Dispatch<React.SetStateAction<IErrors>>;
+    private _errors: IErrors;
     private _rules: IRules;
     private _tempFieldBag: { [props: string]: string; } = {};
-    private _tempPasswordValue: string = "";
+    private _setTempPassword: React.Dispatch<React.SetStateAction<string>>;
+    private _tempPassword: string;
 
 
 
-    constructor (setFields: React.Dispatch<React.SetStateAction<IFormFieldObj>>, fields: IFormFieldObj, errorBag: React.Dispatch<React.SetStateAction<IErrors | null>>, errors: IRules | null, rules: IRules) {
+    constructor (setFields: React.Dispatch<React.SetStateAction<IFormFieldObj>>, fields: IFormFieldObj, errorBag: React.Dispatch<React.SetStateAction<IErrors>>, errors: IRules, rules: IRules, tempPassword: string, setTempPassword: React.Dispatch<React.SetStateAction<string>>) {
         this._setFields = setFields;
         this._fields = fields;
         this._errorBag = errorBag;
         this._errors = errors;
         this._rules = rules;
-
-        // this._password('MaxPatrick12.');
-        // console.log(this._minLength('min:3', '4kuo'));
+        this._tempPassword = tempPassword;
+        this._setTempPassword = setTempPassword;
     }
 
     private get _isFieldsAndRulesValid() {
@@ -49,30 +49,29 @@ export default class InputValidator {
         }
     }
 
-    _getFieldsValuesOnLoad() {
-        if (this._isFieldsAndRulesValid) {
-            let obj = Object.keys(this._fields).reduce((prev, current) => {
-                if (Object.keys(this._rules).includes(current)) {
-                    prev[current] = this._rules[current];
-                }
-                return prev;
-            }, {} as { [props: string]: string; });
-            Object.entries(obj).forEach(([key, rules]) => {
-                const rulesArr = rules.split('|');
-                if (Object.values(rulesArr).includes('required')) {
-                    this._errorBag((prev) => ({
-                        ...prev,
-                        [key]: `${key} is required`
-                    }));
-                }
-            });
-        }
-    }
+    // _getFieldsValuesOnLoad() {
+    //     if (this._isFieldsAndRulesValid) {
+    //         let obj = Object.keys(this._fields).reduce((prev, current) => {
+    //             if (Object.keys(this._rules).includes(current)) {
+    //                 prev[current] = this._rules[current];
+    //             }
+    //             return prev;
+    //         }, {} as { [props: string]: string; });
+    //         Object.entries(obj).forEach(([key, rules]) => {
+    //             const rulesArr = rules.split('|');
+    //             if (Object.values(rulesArr).includes('required')) {
+    //                 this._errorBag((prev) => ({
+    //                     ...prev,
+    //                     [key]: `${key} is required`
+    //                 }));
+    //             }
+    //         });
+    //     }
+    // }
 
     get isFormValid(): boolean {
-        if (this._errors === null) return true;
-        if (Object.keys(this._errors).length === 0) return true;
-        return false;
+        if (Object.keys(this._errors).length === 0) return false;
+        return true;
     }
 
     private _arratToStringLastPosition(rule: string) {
@@ -129,20 +128,22 @@ export default class InputValidator {
                 });
             }
         }
-        // if (rule === 'confirm_password') {
-        //     if (this._confirmPassword(value)) {
-        //         this._errorBag((prev) => ({
-        //             ...prev,
-        //             [keys]: `${keys} doesn't match.`
-        //         }));
-        //     } else {
-        //         this._errorBag((prev) => {
-        //             const copy = { ...prev };
-        //             delete copy[keys];
-        //             return copy;
-        //         });
-        //     }
-        // }
+        if (rules.includes('confirm_password')) {
+            if (this._confirmPassword(value)) {
+                this._errorBag((prev) => ({
+                    ...prev,
+                    [keys]: `password doesn't match`
+                }));
+                return;
+            } else {
+                this._errorBag((prev) => {
+                    const copy = { ...prev };
+                    delete copy[keys];
+                    return copy;
+                });
+            }
+        }
+
 
         let minLengthRule = rules.find(value => /minLength:/.test(value));
         if (typeof minLengthRule !== "undefined") {
@@ -237,16 +238,16 @@ export default class InputValidator {
     private _password(value: string) {
         let result = validator.isStrongPassword(value, { minLength: 8, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 1, returnScore: false });
         if (!result) {
-            this._tempPasswordValue = value;
+            this._setTempPassword("");
             return true;
         }
-        this._tempPasswordValue = "";
+        this._setTempPassword(value);
         return false;
 
     }
 
     private _confirmPassword(value: string) {
-        if (this._tempPasswordValue !== value) {
+        if (this._tempPassword !== value) {
             return true;
         }
         return false;

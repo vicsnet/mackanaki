@@ -1,31 +1,18 @@
 import React, { Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
 import PageLayout from '../../Layouts/PageLayout';
-import { toast } from 'react-toastify';
 import StepTwoForm from '../../components/form/StepTwoForm';
 import StepOneForm from '../../components/form/StepOneForm';
+import useFormInputValidation from '../../hooks/useFormInputValidation';
 
 const Signup = () => {
+  
+
     const [showNext, setShowNext] = useState(false);
 
-    const nextForm = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
 
-        setShowNext(true);
-    };
 
-    const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        toast.success('Form submitted successfully', {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-        });
-    };
+
 
     return (
         <Fragment>
@@ -44,9 +31,9 @@ const Signup = () => {
                         {/* FORM START */}
                         <div className="mx-8 mt-7">
                             {showNext ?
-                                <StepTwoForm submitForm={submitForm} />
+                                <StepTwoForm />
                                 :
-                                <StepOneForm nextForm={nextForm} />
+                                <StepOneForm setShowNext={setShowNext}/>
                             }
                         </div>
                         {/* FORM END */}

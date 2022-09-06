@@ -10,21 +10,20 @@ import useFormInputValidation from '../../hooks/useFormInputValidation';
 
 const Login = () => {
 
-    const [fields, errors, form] = useFormInputValidation({
+    const [fields, errors, form, isvalidForm] = useFormInputValidation({
         email: "",
         password: "",
     }, {
         email: "required|email",
         password: "required"
     });
-    
-    
+
+
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const isValid = form.isFormValid;
-        if (isValid) {
-            // console.log('Submitted');
-            form.customToast({type: "success", message: "Success!"});
+        if (!isvalidForm) {
+            console.log('Submitted');
+            form.customToast({ type: "success", message: "Success!" });
             console.log(fields, errors);
             // Perform api call here
         }
@@ -51,7 +50,6 @@ const Login = () => {
                                 onSubmit={onSubmit}
                             >
                                 <div className="flex flex-col">
-
                                     <FormInput label="Email"
                                         name="email"
                                         placeholder="Email"
@@ -77,7 +75,7 @@ const Login = () => {
                                             <span className="text-primaryColor underline">Create an account</span>
                                         </Link>
                                         </p>
-                                        <Button name="Login" disabled={!form.isFormValid} className="mx-auto" />
+                                        <Button name="Login" disabled={isvalidForm} className="mx-auto" />
                                     </div>
                                 </div>
                             </form>
