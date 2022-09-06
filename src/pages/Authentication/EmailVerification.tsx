@@ -39,7 +39,7 @@ const EmailVerification = () => {
                         </div>
 
                         {/* FORM START */}
-                        <div className="mx-8 md:w-[30rem]">
+                        <div className="mx-4 md:mx-8">
                             <form noValidate
                                 autoComplete="off"
                                 onSubmit={onSubmit}
