@@ -25,7 +25,7 @@ const CreatePost = () => {
   return (
     <Fragment>
       <PageLayout paddingTop='mt-28'>
-        <div className="container mx-auto">
+        <div className="px-10 container mx-auto pb-10">
           <div className="flex flex-col">
             <h2 className="text-signupTextColor font-semibold text-2xl mb-10">Create New Item</h2>
 
