@@ -272,6 +272,25 @@ export default class InputValidator {
         this._getAllFieldRules();
     };
 
+    handleTextAreaChangeEvent(e: React.ChangeEvent<HTMLTextAreaElement>) {
+        this._setFields((prev) => ({
+            ...prev,
+            [e.target.name]: e.target.value
+        }));
+        this._tempFieldBag = { ...this._tempFieldBag, [e.target.name]: e.target.value };
+        this._getAllFieldRules();
+    };
+
+    selectChange(e: React.ChangeEvent<HTMLSelectElement>) {
+        const value = e.target.value;
+        this._setFields((prev) => ({
+            ...prev,
+            [e.target.name]: value
+        }));
+        this._tempFieldBag = { ...this._tempFieldBag, [e.target.name]: e.target.value };
+        this._getAllFieldRules();
+    };
+
 
     customToast({ type, message }: IToast) {
 

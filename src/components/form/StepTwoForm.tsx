@@ -10,11 +10,11 @@ const StepTwoForm = () => {
     const [fields, errors, form, isvalidForm] = useFormInputValidation({
         country: "",
         state: "",
-
+        category: "",
     }, {
         country: "required|minLength:3",
         state: "required|minLength:3",
-
+        category: "required"
     });
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -31,15 +31,15 @@ const StepTwoForm = () => {
                     <FormInput label="Country" className={errors?.country && "border-red-600 border-2"} name="country"
                         errors={errors?.country}
                         placeholder="Country" htmlFor="country" onChange={(e) => form.handleChangeEvent(e)} type="text" />
-                
 
-                    <FormInput label="State" className={errors?.state && "border-red-600 border-2"} name="state" onChange={(e) => form.handleChangeEvent(e)} 
-                    errors={errors?.state}
-                    placeholder="State" htmlFor="state" type="text" />
+
+                    <FormInput label="State" className={errors?.state && "border-red-600 border-2"} name="state" onChange={(e) => form.handleChangeEvent(e)}
+                        errors={errors?.state}
+                        placeholder="State" htmlFor="state" type="text" />
                 </div>
 
 
-                <FormSelect label="Category" htmlFor="category" />
+                <FormSelect label="Category" htmlFor="category" onChange={(e) => form.selectChange(e)} name="category" errors={errors?.category} />
 
                 <div className="md:w-[400px] flex mt-4 flex-col justify-center items-center gap-2 mx-auto">
                     <p className="mx-4 text-signupTextColor md:text-sm text-xs text-center">By signing up to Thombrix platform you understand and agree with our <Link to="#">

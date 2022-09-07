@@ -12,6 +12,8 @@ interface IFormSelect {
     label: string;
     htmlFor: string;
     onChange?: React.ChangeEventHandler<HTMLSelectElement>;
+    name: string;
+    errors: string;
 }
 
 // interface IStepOneForm {
