@@ -13,6 +13,7 @@ interface IFormSelect {
     htmlFor: string;
     onChange?: React.ChangeEventHandler<HTMLSelectElement>;
     name: string;
+    className?: string;
     errors: string;
 }
 

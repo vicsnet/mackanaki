@@ -22,6 +22,20 @@ const CreatePost = () => {
       // Perform api call here
     }
   };
+
+
+  const hiddenFileInput = React.useRef<HTMLInputElement>(null);
+  const [file, setFile] = useState("");
+
+  const handleClick = () => {
+    hiddenFileInput?.current?.click();
+  };
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const fileUploaded = event.target.files;
+    setFile(URL.createObjectURL(fileUploaded![0]));
+    console.log(fileUploaded);
+  };
+  
   return (
     <Fragment>
       <PageLayout paddingTop='mt-28'>
@@ -36,8 +50,14 @@ const CreatePost = () => {
                   <span className="text-signupTextColor text-xs">File types supported: JPEG, PNG, GIF, SVG, MP4, WEMB, MP3, WAV, OGG, GLB and GLTF. MAX SIZE: 100MB</span>
                 </div>
 
-                <motion.div whileTap={{ scale: 0.9 }} className="border border-dotted  border-gray-500 rounded-lg flex justify-center cursor-pointer items-center w-48 h-36 mt-5 mb-10">
-                  <img src="/icons/image.png" className='cursor-pointer w-10 h-10' alt="profile" />
+                <motion.div onClick={handleClick} whileTap={{ scale: 0.9 }} className="border border-dotted  border-gray-500 rounded-lg flex justify-center cursor-pointer items-center w-48 h-36 mt-5 mb-10">
+                  {file === '' ? <img src="/icons/image.png" className='cursor-pointer w-10 h-10' alt="profile" /> : <img src={file} className="object-cover" alt="profile" />}
+
+                  <input type="file"
+                    ref={hiddenFileInput}
+                    onChange={handleChange}
+                    style={{ display: 'none' }}
+                  />
                 </motion.div>
 
                 <div className="flex flex-col gap-3 mb-10">

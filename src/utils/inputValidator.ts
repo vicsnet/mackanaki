@@ -207,7 +207,6 @@ export default class InputValidator {
         return false;
     }
 
-
     private _email(value: string) {
         if (!validator.isEmail(value)) {
             return true;
