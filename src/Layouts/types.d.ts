@@ -1,4 +1,4 @@
-export type PageLayoutPropTypes = {
+type PageLayoutPropTypes = {
     children: React.ReactNode;
     paddingTop?: string
 };

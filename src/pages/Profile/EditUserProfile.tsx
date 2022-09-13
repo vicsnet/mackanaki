@@ -56,8 +56,12 @@ const EditUserProfile = () => {
           {showmenu && <div className="lg:hidden flex flex-2 w-full flex-col border border-gray-500 py-7 md:px-14 px-7">
             <img src="/icons/logo.png" className='hidden mx-auto cursor-pointer md:w-40 w-28 mb-10' alt="logo" />
             <ul className="flex gap-5 flex-col text-navTextDarkColor">
-              <li className="flex items-center gap-3 cursor-pointer md:text-sm text-xs hover:text-primaryColor"><BiEdit className='text-base' /> Edit Profile</li>
-              <li className="flex items-center gap-3 cursor-pointer md:text-sm text-xs hover:text-primaryColor"><BiKey className='text-base' /> Change Password</li>
+              <Link to="/profile/patrick/edit">
+                <li className="flex items-center gap-3 cursor-pointer md:text-sm text-xs hover:text-primaryColor"><BiEdit className='text-base' /> Edit Profile</li>
+              </Link>
+              <Link to="/profile/change-password">
+                <li className="flex items-center gap-3 cursor-pointer md:text-sm text-xs hover:text-primaryColor"><BiKey className='text-base' /> Change Password</li>
+              </Link>
             </ul>
           </div>}
 
@@ -67,7 +71,7 @@ const EditUserProfile = () => {
               <Link to="/profile/patrick/edit">
                 <li className="flex items-center gap-3 cursor-pointer md:text-sm text-xs hover:text-primaryColor"><BiEdit className='text-base' /> Edit Profile</li>
               </Link>
-              <Link to="">
+              <Link to="/profile/change-password">
                 <li className="flex items-center gap-3 cursor-pointer md:text-sm text-xs hover:text-primaryColor"><BiKey className='text-base' /> Change Password</li>
               </Link>
               <Link to="/">
