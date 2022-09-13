@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import { BiRefresh } from 'react-icons/bi';
-import { MdLogout, MdStar } from 'react-icons/md';
+import { MdLogout, MdPayment, MdStar } from 'react-icons/md';
 import { RiArrowDownSLine, RiArrowUpSLine } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
 import PageLayout from '../../Layouts/PageLayout';
@@ -26,7 +26,7 @@ const Wallet = () => {
                                     <p className="text-sm">Refresh fund</p>
                                 </div>
                                 <div className="flex items-center text-gray-400 cursor-pointer border-b border-navbarDarkColor gap-3 px-4 py-3">
-                                    <BiRefresh className="text-[20px]" />
+                                    <MdPayment className="text-[20px]" />
                                     <p className="text-sm">Payment Setting</p>
                                 </div>
                                 <Link to="/">
