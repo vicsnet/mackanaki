@@ -5,7 +5,12 @@ import Button from '../ui/Button';
 import FormInput from './FormInput';
 
 
-const StepOneForm = ({ setShowNext }: { setShowNext: React.Dispatch<React.SetStateAction<boolean>>; }) => {
+const StepOneForm = ({ setShowNext }: {
+    setShowNext: React.Dispatch<React.SetStateAction<{
+        status: boolean;
+        fields: {[props:string]:string};
+    }>>;
+}) => {
     const [fields, errors, form, isvalidForm] = useFormInputValidation({
         name: "",
         username: "",
@@ -24,10 +29,11 @@ const StepOneForm = ({ setShowNext }: { setShowNext: React.Dispatch<React.SetSta
 
         e.preventDefault();
         if (!isvalidForm) {
-            setShowNext(true);
-            form.customToast({ type: "success", message: "Success!" });
-            console.log(fields, errors);
-            // Perform api call here
+            setShowNext((prev) => ({
+                ...prev,
+                status: true,
+                fields: fields
+            }));
         }
     };
 

@@ -1,45 +1,110 @@
 
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import useFormInputValidation from '../../hooks/useFormInputValidation';
+import useLocalStorage from '../../hooks/useLocalStorage';
+import { useAppDispatch, useAppSelector } from '../../redux/app/hooks';
+import { getRegisterState, registerUser } from '../../redux/features/authentication/registerSlice';
+import { getAllCategories, getCategoriesApi } from '../../redux/features/Category/categorySlice';
+import { getAllCountries, getCountriesApi } from '../../redux/features/Country/countrySlice';
+import { getAllCountryState, getCountryStateApi } from '../../redux/features/CountryState/countryStateSlice';
 import Button from '../ui/Button';
-import FormInput from './FormInput';
 import FormSelect from './FormSelect';
 
-const StepTwoForm = () => {
-    const [fields, errors, form, isvalidForm] = useFormInputValidation({
-        country: "",
+
+
+const StepTwoForm = ({ showNext }: {
+    showNext: {
+        status: boolean;
+        fields: { [props: string]: string; };
+    };
+}) => {
+    const dispatch = useAppDispatch();
+    const { categories, status: catStatus, errors: catErrMsg } = useAppSelector(getAllCategories);
+    const { countries, status: counStatus, errors: counErrMsg } = useAppSelector(getAllCountries);
+    const { states, status: statesStatus, errors: stateErrMsg } = useAppSelector(getAllCountryState);
+    const { status: registerStatus, error: registerErrMsg } = useAppSelector(getRegisterState);
+    const navigate = useNavigate();
+    const [getItem, setItem] = useLocalStorage();
+
+    let [fields, errors, form, isvalidForm] = useFormInputValidation({
         state: "",
+        country: "",
         category: "",
     }, {
-        country: "required|minLength:3",
-        state: "required|minLength:3",
+        state: "required",
+        country: "required",
         category: "required"
     });
+
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!isvalidForm) {
-            form.customToast({ type: "success", message: "Success!" });
-            console.log(fields, errors);
             // Perform api call here
+            const data = {
+                name: showNext.fields.name,
+                username: showNext.fields.username,
+                email: showNext.fields.email,
+                password: showNext.fields.password,
+                country_id: fields.country,
+                state_id: fields.state,
+                category_id: fields.category,
+            };
+            // setItem("email", showNext.fields.email);
+            // navigate('/verify-email');
+            dispatch(registerUser(data));
+
         }
     };
+
+    useEffect(() => {
+        dispatch(getCategoriesApi());
+        dispatch(getCountriesApi());
+        if (registerStatus === "failed") {
+            if (registerErrMsg?.email) {
+                form.customToast({ type: "error", message: registerErrMsg.email[0] });
+            } else {
+                form.customToast({ type: "error", message: registerErrMsg });
+            }
+        } else if (registerStatus === "success") {
+            form.customToast({ type: "success", message: "Registration successfully, Kindly complete registration by verifying your email. An OTP has been sent to your email!" });
+            setItem("email", showNext.fields.email);
+            navigate('/verify-email');
+
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [dispatch, registerErrMsg, registerStatus]);
+
+
+
+    const selectedCountry = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const value = e.target.value;
+        if (value !== "") {
+            fields.country = value;
+            dispatch(getCountryStateApi(value));
+        }
+    };
+
     return (
+
         <form onSubmit={onSubmit}>
-            <div className="flex flex-col gap-7">
+            <div className="flex flex-col">
                 <div className="flex flex-wrap md:flex-nowrap justify-between md:gap-5">
-                    <FormInput label="Country" className={errors?.country && "border-red-600 border-2"} name="country"
+
+                    <FormSelect label="Country" htmlFor="country" countries={countries} onChange={(e) => selectedCountry(e)} name="country" status={counStatus} errors={errors?.country} />
+                    {/* <FormInput label="Country" countries={countries} className={errors?.country && "border-red-600 border-2"} name="country"
                         errors={errors?.country}
-                        placeholder="Country" htmlFor="country" onChange={(e) => form.handleChangeEvent(e)} type="text" />
-
-
+                        placeholder="Country" htmlFor="country" onChange={(e) => form.handleChangeEvent(e)} type="text" /> */}
+                    <FormSelect label="State" htmlFor="state" states={states} onChange={(e) => form.selectChange(e)} name="state" status={statesStatus} errors={errors?.state} />
+                    {/* 
                     <FormInput label="State" className={errors?.state && "border-red-600 border-2"} name="state" onChange={(e) => form.handleChangeEvent(e)}
                         errors={errors?.state}
-                        placeholder="State" htmlFor="state" type="text" />
+                        placeholder="State" htmlFor="state" type="text" /> */}
                 </div>
 
 
-                <FormSelect label="Category" htmlFor="category" onChange={(e) => form.selectChange(e)} name="category" errors={errors?.category} />
+                <FormSelect label="Category" htmlFor="category" categories={categories} onChange={(e) => form.selectChange(e)} name="category" status={catStatus} errors={errors?.category} />
 
                 <div className="md:w-[400px] flex mt-4 flex-col justify-center items-center gap-2 mx-auto">
                     <p className="mx-4 text-signupTextColor md:text-sm text-xs text-center">By signing up to Thombrix platform you understand and agree with our <Link to="#">
@@ -50,7 +115,9 @@ const StepTwoForm = () => {
                 </div>
             </div>
         </form>
+
     );
 };
 
 export default StepTwoForm;
+

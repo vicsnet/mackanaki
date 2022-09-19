@@ -1,9 +1,9 @@
 import { useAppSelector } from "../redux/app/hooks";
-import { getUserInfo } from "../redux/features/authentication/authSlice";
+import { getRegisterState } from "../redux/features/authentication/registerSlice";
 
 
 const useAuth = () => {
-    return useAppSelector(getUserInfo);
- };
+    return useAppSelector(getRegisterState);
+};
 
 export default useAuth;

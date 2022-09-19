@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 
 
 const PostTile = () => {
+    
     return (
         <Fragment>
             <div className="flex flex-col pb-10">

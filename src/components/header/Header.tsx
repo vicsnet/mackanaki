@@ -16,9 +16,9 @@ const Header = () => {
     const [showMessagesDropdown, setMessagesShowdropdown] = useState(false);
     const [showSearch, setShowSearch] = useState(false);
     const [showProfileDropdown, setShowProfileDropdown] = useState(false);
-    const { user } = useAuth();
+    const { register } = useAuth();
 
-    
+
 
     const openActivityMenu = () => {
         setActivityShowdropdown(!showActivityDropdown);
@@ -76,7 +76,7 @@ const Header = () => {
                         <img src="/icons/users.png" className='cursor-pointer w-7 h-7' alt="logo" />
                     </Link>
 
-                    {user ? <Link to="/profile/patrick">
+                    {register ? <Link to="/profile/patrick">
                         <img src="/icons/user.png" className='cursor-pointer w-7 h-7' alt="logo" />
                     </Link> :
                         <img src="/icons/user.png" onClick={showProfile} className='cursor-pointer w-7 h-7' alt="logo" />
@@ -112,7 +112,7 @@ const Header = () => {
 
             </div>
             {showSearch &&
-               <MobileSearchInput/>
+                <MobileSearchInput />
             }
 
         </nav>

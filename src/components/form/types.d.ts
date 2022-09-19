@@ -1,30 +1,33 @@
 interface IFormInput {
-    label: string;
-    placeholder: string;
-    htmlFor: string;
-    type?: string;
-    name: string;
-    onChange?: React.ChangeEventHandler<HTMLInputElement>;
-    className?: string;
-    errors: string;
+  label: string;
+  placeholder: string;
+  htmlFor: string;
+  type?: string;
+  name: string;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  className?: string;
+  errors: string;
 }
 interface IFormSelect {
-    label: string;
-    htmlFor: string;
-    onChange?: React.ChangeEventHandler<HTMLSelectElement>;
+  label: string;
+  htmlFor: string;
+  onChange?: React.ChangeEventHandler<HTMLSelectElement>;
+  name: string;
+  className?: string;
+  errors: string;
+  categories?: {
+    id: string;
     name: string;
-    className?: string;
-    errors: string;
+  }[];
+  states?: {
+    id: string;
+    name: string;
+  }[];
+  countries?: {
+    id: string;
+    code: string;
+    shortname: string;
+    name: string;
+  }[];
+  status?: "idle" | "loading" | "success" | "failed";
 }
-
-// interface IStepOneForm {
-//     nextForm: Function;
-//     errors: IErrors | null;
-//     form: InputValidator;
-
-// }
-// interface IStepTwoForm {
-
-//     errors: IErrors | null;
-//     form: InputValidator;
-// }
