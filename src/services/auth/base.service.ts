@@ -1,3 +1,3 @@
 export default class BaseService {
-  protected BASE_URL = "http://macanacki-web-api.test/api";
+  protected BASE_URL = "https://thombrix-backend.herokuapp.com";
 }

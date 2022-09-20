@@ -1,10 +1,11 @@
 
 import React, { useEffect } from 'react';
+import { BiArrowBack } from 'react-icons/bi';
 import { Link, useNavigate } from 'react-router-dom';
 import useFormInputValidation from '../../hooks/useFormInputValidation';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import { useAppDispatch, useAppSelector } from '../../redux/app/hooks';
-import { getRegisterState, registerUser } from '../../redux/features/authentication/registerSlice';
+import { resetState, getRegisterState, registerUser } from '../../redux/features/authentication/registerSlice';
 import { getAllCategories, getCategoriesApi } from '../../redux/features/Category/categorySlice';
 import { getAllCountries, getCountriesApi } from '../../redux/features/Country/countrySlice';
 import { getAllCountryState, getCountryStateApi } from '../../redux/features/CountryState/countryStateSlice';
@@ -13,11 +14,15 @@ import FormSelect from './FormSelect';
 
 
 
-const StepTwoForm = ({ showNext }: {
+const StepTwoForm = ({ showNext, setShowNext }: {
     showNext: {
         status: boolean;
         fields: { [props: string]: string; };
     };
+    setShowNext: React.Dispatch<React.SetStateAction<{
+        status: boolean;
+        fields: { [props: string]: string; };
+    }>>;
 }) => {
     const dispatch = useAppDispatch();
     const { categories, status: catStatus, errors: catErrMsg } = useAppSelector(getAllCategories);
@@ -60,11 +65,22 @@ const StepTwoForm = ({ showNext }: {
     useEffect(() => {
         dispatch(getCategoriesApi());
         dispatch(getCountriesApi());
+        if (catErrMsg !== "") {
+            form.customToast({ type: "error", message: catErrMsg! });
+        }
+        if (counErrMsg !== "") {
+            form.customToast({ type: "error", message: counErrMsg! });
+        }
+        if (stateErrMsg !== "") {
+            form.customToast({ type: "error", message: stateErrMsg! });
+        }
         if (registerStatus === "failed") {
             if (registerErrMsg?.email) {
                 form.customToast({ type: "error", message: registerErrMsg.email[0] });
+                dispatch(resetState());
             } else {
                 form.customToast({ type: "error", message: registerErrMsg });
+                dispatch(resetState());
             }
         } else if (registerStatus === "success") {
             form.customToast({ type: "success", message: "Registration successfully, Kindly complete registration by verifying your email. An OTP has been sent to your email!" });
@@ -84,6 +100,11 @@ const StepTwoForm = ({ showNext }: {
             fields.country = value;
             dispatch(getCountryStateApi(value));
         }
+    };
+
+    const prevForm = () => {
+        setShowNext((prev) => ({ ...prev, status: false }));
+        dispatch(resetState())
     };
 
     return (
@@ -111,7 +132,12 @@ const StepTwoForm = ({ showNext }: {
                         <span className="text-primaryColor underline">Term of Service</span>
                     </Link> and <Link to="#"><span className="text-primaryColor underline">Privacy Policy</span></Link></p>
 
-                    <Button name="Create account" disabled={isvalidForm} className="mx-auto" />
+                </div>
+                <div className="flex justify-between">
+                    <Button name="Previous" onClick={prevForm}>
+                        <BiArrowBack />
+                    </Button>
+                    <Button name="Create account" disabled={isvalidForm} />
                 </div>
             </div>
         </form>

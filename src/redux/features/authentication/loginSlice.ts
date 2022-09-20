@@ -3,10 +3,10 @@ import AuthService from "../../../services/auth/auth.service";
 import { RootState } from "../../app/store";
 
 // Get user information from local storage
-// const user = JSON.parse(localStorage.getItem("user") as string);
+const token = JSON.parse(localStorage.getItem("token") as string);
 
-const initialState: IRegisterState = {
-  register: false,
+const initialState: ILoginState = {
+  token: token ? token : null,
   status: "idle",
   error: "",
 };
@@ -14,12 +14,11 @@ const initialState: IRegisterState = {
 const authService = new AuthService();
 
 // ======= HANDLE API START ==========
-export const registerUser = createAsyncThunk(
-  "user/register",
+export const loginUser = createAsyncThunk(
+  "oauth/token",
   async (userData: { [props: string]: string }, thunkAPI) => {
     try {
-      const response = await authService.register(userData);
-
+      const response = await authService.login(userData);
       return response;
     } catch (error: any) {
       const message =
@@ -34,32 +33,39 @@ export const registerUser = createAsyncThunk(
 );
 // ======= HANDLE API END ==========
 
-const registerSlice = createSlice({
+const loginSlice = createSlice({
   name: "auth",
   initialState: initialState,
   reducers: {
     resetState: (state) => {
       state.error = "";
-      state.register = false;
+      state.token = null;
       state.status = "idle";
+    },
+    logout: (state) => {
+      state.token = null;
+      state.status = "idle";
+      state.error = "";
+      localStorage.removeItem("token");
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(registerUser.pending, (state, { payload }) => {
+      .addCase(loginUser.pending, (state, { payload }) => {
         state.status = "loading";
       })
-      .addCase(registerUser.fulfilled, (state, { payload }) => {
+      .addCase(loginUser.fulfilled, (state, { payload }) => {
         state.status = "success";
-        state.register = payload?.status;
+        state.token = payload?.access_token;
+        localStorage.setItem("token", JSON.stringify(payload?.access_token));
       })
-      .addCase(registerUser.rejected, (state, { payload }) => {
+      .addCase(loginUser.rejected, (state, { payload }) => {
         state.status = "failed";
         state.error = payload as string;
       });
   },
 });
 
-export const getRegisterState = (state: RootState) => state.register;
-export const { resetState } = registerSlice.actions;
-export default registerSlice.reducer;
+export const getLoginState = (state: RootState) => state.login;
+export const { resetState, logout } = loginSlice.actions;
+export default loginSlice.reducer;

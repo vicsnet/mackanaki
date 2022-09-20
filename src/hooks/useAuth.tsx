@@ -1,9 +1,10 @@
 import { useAppSelector } from "../redux/app/hooks";
-import { getRegisterState } from "../redux/features/authentication/registerSlice";
+import { getLoginState } from "../redux/features/authentication/loginSlice";
 
 
 const useAuth = () => {
-    return useAppSelector(getRegisterState);
+    const { token } = useAppSelector(getLoginState)
+    return token;
 };
 
 export default useAuth;

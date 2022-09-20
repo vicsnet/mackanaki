@@ -16,7 +16,7 @@ const Header = () => {
     const [showMessagesDropdown, setMessagesShowdropdown] = useState(false);
     const [showSearch, setShowSearch] = useState(false);
     const [showProfileDropdown, setShowProfileDropdown] = useState(false);
-    const { register } = useAuth();
+    const isLoggedIn = useAuth();
 
 
 
@@ -71,12 +71,12 @@ const Header = () => {
 
                     <AiOutlineMessage onClick={openMessgageMenu} className="cursor-pointer  text-navTextDarkColor text-3xl" />
 
-
+{/* 
                     <Link to="/profile">
                         <img src="/icons/users.png" className='cursor-pointer w-7 h-7' alt="logo" />
-                    </Link>
+                    </Link> */}
 
-                    {register ? <Link to="/profile/patrick">
+                    {isLoggedIn ? <Link to="/profile">
                         <img src="/icons/user.png" className='cursor-pointer w-7 h-7' alt="logo" />
                     </Link> :
                         <img src="/icons/user.png" onClick={showProfile} className='cursor-pointer w-7 h-7' alt="logo" />

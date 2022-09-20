@@ -27,7 +27,7 @@ const SignupOptions = () => {
                         <div className="flex flex-col px-10">
                             <SignUpOptionBtn icon="/icons/mail.png" text="Sign up with email address" url="/signup" />
                             <SignUpOptionBtn icon="/icons/google.png" text="Sign up with Google" url="/signup" />
-                            <SignUpOptionBtn icon="/icons/phone.png" text="Sign up with Phone Number" url="" />
+                            {/* <SignUpOptionBtn icon="/icons/phone.png" text="Sign up with Phone Number" url="" /> */}
                         </div>
                         {/* FORM END */}
 

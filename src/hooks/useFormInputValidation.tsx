@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import InputValidator from '../utils/inputValidator';
 
 const useFormInputValidation = (formFields: IFormFieldObj, rules: IRules): [fields: IFormFieldObj, errors: IErrors, form: InputValidator, isvalidForm: boolean] => {

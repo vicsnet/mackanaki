@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import registerReducer from "../features/authentication/registerSlice";
+import loginReducer from "../features/authentication/loginSlice";
 import categoryReducer from "../features/Category/categorySlice";
 import countryReducer from "../features/Country/countrySlice";
 import countryStateReducer from "../features/CountryState/countryStateSlice";
@@ -12,6 +13,7 @@ export const store = configureStore({
     country: countryReducer,
     states: countryStateReducer,
     verifyEmail: verifyEmailReducer,
+    login: loginReducer
   },
 });
 

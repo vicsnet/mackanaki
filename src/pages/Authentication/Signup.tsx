@@ -29,10 +29,12 @@ const Signup = () => {
             confirm_password: "",
         }
     });
+
     return (
         <Fragment>
             <PageLayout>
                 {/* SIGNUP CONTAINER START */}
+             
                 <Loader show={counStateStatus === "loading"} backgroundStyle={{ background: "none" }} message={<ScaleLoader cssOverride={override} color="#c1c1c1" />}>
                     <div className="flex justify-center items-center p-6">
                         <div className="rounded-3xl shadow-lg shadow-zinc-900 bg-secondaryColor h-auto py-10 md:px-4">
@@ -47,7 +49,7 @@ const Signup = () => {
                             {/* FORM START */}
                             <div className="mx-8 mt-4">
                                 {showNext.status ?
-                                    <StepTwoForm showNext={showNext} />
+                                    <StepTwoForm showNext={showNext} setShowNext={setShowNext} />
                                     :
                                     <StepOneForm setShowNext={setShowNext} />
                                 }

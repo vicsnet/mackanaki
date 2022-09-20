@@ -6,7 +6,7 @@ import Messages from './Messages';
 
 const MenuPostMessages = () => {
     return (
-        <motion.div initial={{ opacity: 0, scale: 0.6 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.6 }} style={{ clipPath: "polygon(0px 8%, 70% 8%, 74% 2%, 78% 8%, 100% 8%, 100% 100%, 0px 100%)" }} className="hidden lg:flex flex-col absolute top-[48px] drop-shadow-lg rounded-lg right-[8.2rem] w-[500px] h-50 bg-dropdownbgColor pt-[3rem] pl-8 h-[400px]">
+        <motion.div initial={{ opacity: 0, scale: 0.6 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.6 }} style={{ clipPath: "polygon(0px 8%, 70% 8%, 74% 2%, 78% 8%, 100% 8%, 100% 100%, 0px 100%)" }} className="hidden lg:flex flex-col absolute top-[48px] drop-shadow-lg rounded-lg right-[3.9rem] w-[500px] h-50 bg-dropdownbgColor pt-[3rem] pl-8 h-[400px]">
 
             <div className="scroll-m-0.5 overflow-y-auto flex flex-col gap-5 h-[330px] pr-8">
 

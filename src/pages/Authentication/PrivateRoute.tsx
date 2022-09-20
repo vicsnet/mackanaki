@@ -3,11 +3,11 @@ import { Outlet, Navigate, useLocation } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 
 const PrivateRoute = () => {
-    const { register } = useAuth();
+    const isLoggedIn = useAuth();
     const location = useLocation();
 
     return (
-        register ? <Outlet /> : <Navigate to='/' state={{ from: location }} replace />
+        isLoggedIn ? <Outlet /> : <Navigate to='/login' state={{ from: location }} replace />
     );
 };
 

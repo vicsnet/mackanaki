@@ -8,7 +8,7 @@ import FormInput from './FormInput';
 const StepOneForm = ({ setShowNext }: {
     setShowNext: React.Dispatch<React.SetStateAction<{
         status: boolean;
-        fields: {[props:string]:string};
+        fields: { [props: string]: string; };
     }>>;
 }) => {
     const [fields, errors, form, isvalidForm] = useFormInputValidation({
@@ -26,7 +26,6 @@ const StepOneForm = ({ setShowNext }: {
     });
 
     const nextForm = (e: React.FormEvent<HTMLFormElement>) => {
-
         e.preventDefault();
         if (!isvalidForm) {
             setShowNext((prev) => ({
@@ -37,8 +36,10 @@ const StepOneForm = ({ setShowNext }: {
         }
     };
 
+
     return (
         <form onSubmit={nextForm}>
+           
             <div className="flex flex-col">
                 <div className="flex flex-wrap md:flex-nowrap justify-between md:gap-5">
                     <FormInput label="Name" className={errors?.name && "border-red-600 border-2"}

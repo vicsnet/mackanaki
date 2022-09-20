@@ -26,7 +26,7 @@ const EmailVerification = () => {
     const [getItem] = useLocalStorage();
     const [email, setEmail] = useState("");
     const dispatch = useAppDispatch();
-    const { error, status, verified } = useAppSelector(getVerifyEmailState);
+    const { error, status } = useAppSelector(getVerifyEmailState);
     const navigate = useNavigate();
     const getEmail = getItem('email');
 
@@ -41,9 +41,8 @@ const EmailVerification = () => {
         } else if (status === "success") {
             form.customToast({ type: "success", message: "Your email has been verified" });
             localStorage.removeItem("email");
-            navigate('/');
+            navigate('/login');
         }
-
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [status]);
 
@@ -55,7 +54,6 @@ const EmailVerification = () => {
                 otp: fields.code
             };
             dispatch(verifyEmail(data));
-
         }
     };
 

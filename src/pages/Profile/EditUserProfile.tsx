@@ -7,6 +7,8 @@ import EditProfileFormSelect from '../../components/form/EditProfileFormSelect';
 import Button from '../../components/ui/Button';
 import useFormInputValidation from '../../hooks/useFormInputValidation';
 import PageLayout from '../../Layouts/PageLayout';
+import { useAppDispatch } from '../../redux/app/hooks';
+import { logout } from '../../redux/features/authentication/loginSlice';
 
 const EditUserProfile = () => {
   const [showmenu, setShowmenu] = useState(false);
@@ -43,6 +45,8 @@ const EditUserProfile = () => {
     setShowmenu(!showmenu);
 
   };
+
+  const dispatch = useAppDispatch();
   return (
     <Fragment>
       <PageLayout paddingTop='mt-32'>
@@ -62,6 +66,7 @@ const EditUserProfile = () => {
               <Link to="/profile/change-password">
                 <li className="flex items-center gap-3 cursor-pointer md:text-sm text-xs hover:text-primaryColor"><BiKey className='text-base' /> Change Password</li>
               </Link>
+              <li onClick={()=>dispatch(logout())} className="flex items-center gap-3 cursor-pointer md:text-sm text-xs hover:text-red-500"><BiPowerOff className='text-base' /> logout</li>
             </ul>
           </div>}
 
@@ -74,9 +79,7 @@ const EditUserProfile = () => {
               <Link to="/profile/change-password">
                 <li className="flex items-center gap-3 cursor-pointer md:text-sm text-xs hover:text-primaryColor"><BiKey className='text-base' /> Change Password</li>
               </Link>
-              <Link to="/">
-                <li className="flex items-center gap-3 cursor-pointer md:text-sm text-xs hover:text-red-500"><BiPowerOff className='text-base' /> logout</li>
-              </Link>
+                <li onClick={()=>dispatch(logout())} className="flex items-center gap-3 cursor-pointer md:text-sm text-xs hover:text-red-500"><BiPowerOff className='text-base' /> logout</li>
             </ul>
           </div>
 

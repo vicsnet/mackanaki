@@ -3,6 +3,11 @@ interface IRegisterState {
   status: "idle" | "loading" | "success" | "failed";
   error: any;
 }
+interface ILoginState {
+  token: string | null;
+  status: "idle" | "loading" | "success" | "failed";
+  error: any;
+}
 interface IVerifyState {
   verified: boolean;
   status: "idle" | "loading" | "success" | "failed";
