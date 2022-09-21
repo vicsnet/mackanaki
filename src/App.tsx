@@ -33,7 +33,7 @@ function App() {
             <Route path="/profile" element={< UserProfile />} />
           </Route>
 
-          <Route path="/auth/google" element={<GoogleCallback />}></Route>
+          <Route path="/auth/google/callback" element={<GoogleCallback />}></Route>
           <Route path="/login" element={isAuth ? <Navigate to="/" /> : <Login />} />
           <Route path="/signup-options" element={isAuth ? <Navigate to="/" /> : <SignupOptions />} />
           <Route path='/signup' element={isAuth ? <Navigate to="/" /> : <Signup />} />
