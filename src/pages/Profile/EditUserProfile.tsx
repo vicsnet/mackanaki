@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { BiEdit, BiKey, BiPowerOff } from 'react-icons/bi';
 import { MdOutlineClose } from 'react-icons/md';
 import { Link } from 'react-router-dom';
@@ -9,6 +9,7 @@ import useFormInputValidation from '../../hooks/useFormInputValidation';
 import PageLayout from '../../Layouts/PageLayout';
 import { useAppDispatch } from '../../redux/app/hooks';
 import { logout } from '../../redux/features/authentication/loginSlice';
+import { userProfile } from '../../redux/features/user/userProfileSlice';
 
 const EditUserProfile = () => {
   const [showmenu, setShowmenu] = useState(false);
@@ -40,13 +41,17 @@ const EditUserProfile = () => {
       // Perform api call here
     }
   };
+  const dispatch = useAppDispatch();
 
   const showSideMenu = () => {
     setShowmenu(!showmenu);
 
   };
 
-  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(userProfile());
+  }, [dispatch])
+  
   return (
     <Fragment>
       <PageLayout paddingTop='mt-32'>

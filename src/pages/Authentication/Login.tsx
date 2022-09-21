@@ -39,7 +39,7 @@ const Login = () => {
         e.preventDefault();
         if (!isvalidForm) {
             const data = {
-                username: fields.email,
+                email: fields.email,
                 password: fields.password
             };
             dispatch(loginUser(data));

@@ -8,6 +8,11 @@ interface ILoginState {
   status: "idle" | "loading" | "success" | "failed";
   error: any;
 }
+interface IUserProfileState {
+  data: { [props: string]: string } | null;
+  status: "idle" | "loading" | "success" | "failed";
+  error: any;
+}
 interface IVerifyState {
   verified: boolean;
   status: "idle" | "loading" | "success" | "failed";

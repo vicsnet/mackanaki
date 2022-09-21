@@ -8,6 +8,7 @@ import { CreatePost } from "./pages/Post";
 import { Wallet } from "./pages/Wallet";
 import { Signup, Login, EmailVerification, SignupOptions, PrivateRoute } from "./pages/Authentication";
 import useAuth from "./hooks/useAuth";
+import GoogleCallback from "./pages/Authentication/GoogleCallback";
 
 
 
@@ -32,7 +33,7 @@ function App() {
             <Route path="/profile" element={< UserProfile />} />
           </Route>
 
-
+          <Route path="/auth/google" element={<GoogleCallback />}></Route>
           <Route path="/login" element={isAuth ? <Navigate to="/" /> : <Login />} />
           <Route path="/signup-options" element={isAuth ? <Navigate to="/" /> : <SignupOptions />} />
           <Route path='/signup' element={isAuth ? <Navigate to="/" /> : <Signup />} />

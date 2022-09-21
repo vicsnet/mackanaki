@@ -5,6 +5,7 @@ import categoryReducer from "../features/Category/categorySlice";
 import countryReducer from "../features/Country/countrySlice";
 import countryStateReducer from "../features/CountryState/countryStateSlice";
 import verifyEmailReducer from "../features/authentication/verifyEmailSlice";
+import userProfileReducer from "../features/user/userProfileSlice";
 
 export const store = configureStore({
   reducer: {
@@ -13,7 +14,8 @@ export const store = configureStore({
     country: countryReducer,
     states: countryStateReducer,
     verifyEmail: verifyEmailReducer,
-    login: loginReducer
+    login: loginReducer,
+    userProfile: userProfileReducer,
   },
 });
 

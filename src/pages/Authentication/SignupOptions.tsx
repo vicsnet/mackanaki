@@ -1,10 +1,29 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import PageLayout from '../../Layouts/PageLayout';
 import SignUpOptionBtn from '../../components/ui/SignUpOptionBtn';
 
 
 const SignupOptions = () => {
+    const [loginUrl, setLoginUrl] = useState(null);
+    useEffect(() => {
+        fetch('https://thombrix-backend.herokuapp.com/auth/google', {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        })
+            .then((response) => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error('Something went wrong!');
+            })
+            .then((data) => {
+                return setLoginUrl(data.data.target_url);
+            })
+            .catch((error) => console.error(error));
+    }, []);
 
 
     return (
@@ -25,8 +44,11 @@ const SignupOptions = () => {
 
                         {/* FORM START */}
                         <div className="flex flex-col px-10">
-                            <SignUpOptionBtn icon="/icons/mail.png" text="Sign up with email address" url="/signup" />
-                            <SignUpOptionBtn icon="/icons/google.png" text="Sign up with Google" url="/signup" />
+                            <Link to="/signup" >
+                                <SignUpOptionBtn icon="/icons/mail.png" text="Sign up with email address" />
+                            </Link>
+                            <SignUpOptionBtn icon="/icons/google.png" text="Sign up with Google" onClick={() => window.location.replace(loginUrl !== null ? (loginUrl as string) : "",)} />
+                            {/* {loginUrl !== null ? (loginUrl as string) : ""}  */}
                             {/* <SignUpOptionBtn icon="/icons/phone.png" text="Sign up with Phone Number" url="" /> */}
                         </div>
                         {/* FORM END */}

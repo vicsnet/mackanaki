@@ -43,6 +43,7 @@ const EmailVerification = () => {
             localStorage.removeItem("email");
             navigate('/login');
         }
+   
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [status]);
 

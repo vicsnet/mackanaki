@@ -19,7 +19,9 @@ export default class UserService extends BaseService {
 
   async getCountryState(id: string) {
     try {
-      const response = await axios.get(this.BASE_URL + "/api/Country/states/" + id);
+      const response = await axios.get(
+        this.BASE_URL + "/api/Country/states/" + id
+      );
       return response.data;
     } catch (error: any) {
       const message =
@@ -48,23 +50,17 @@ export default class UserService extends BaseService {
   }
 
   async userProfile(token: string) {
-    try {
-      const headers = {
+    const config = {
+      headers: {
         "Content-Type": "application/json",
-        Authorization: `bearer ${token}`,
-      };
-      const response = await axios.get(this.BASE_URL + "/api/user/profile", {
-        headers: headers,
-      });
-      return response.data;
-    } catch (error: any) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
-      return message;
-    }
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const response = await axios.get(
+      this.BASE_URL + "/api/user/profile",
+      config
+    );
+
+    return response.data;
   }
 }

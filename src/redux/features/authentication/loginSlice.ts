@@ -56,8 +56,11 @@ const loginSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, { payload }) => {
         state.status = "success";
-        state.token = payload?.access_token;
-        localStorage.setItem("token", JSON.stringify(payload?.access_token));
+        state.token = payload?.data?.access_token;
+        localStorage.setItem(
+          "token",
+          JSON.stringify(payload?.data?.access_token)
+        );
       })
       .addCase(loginUser.rejected, (state, { payload }) => {
         state.status = "failed";
