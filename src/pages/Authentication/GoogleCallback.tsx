@@ -15,6 +15,7 @@ const GoogleCallback = () => {
 
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+
     useEffect(() => {
 
         fetch(`https://thombrix-backend.herokuapp.com/auth/google/callback${location.search}`, {
@@ -37,7 +38,7 @@ const GoogleCallback = () => {
             });
         console.count('ran');
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [dispatch, location.search, status]);
+    }, []);
 
     // if (loading) {
     //     return <DisplayLoading />;
