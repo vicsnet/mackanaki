@@ -1,16 +1,20 @@
 
 import React, { useState, useEffect } from 'react';
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from '../../redux/app/hooks';
+import { getLoginState, gooogleAuthToken, resetState } from '../../redux/features/authentication/loginSlice';
 
-function GoogleCallback() {
+const GoogleCallback = () => {
 
-    const [loading, setLoading] = useState(true);
-    const [data, setData] = useState<{ [props: string]: string; }>({});
-    const [user, setUser] = useState(null);
+    // const [loading, setLoading] = useState(true);
+    // const [data, setData] = useState<{ [props: string]: string; }>({});
+    // const [user, setUser] = useState(null);
     const location = useLocation();
+    const { status } = useAppSelector(getLoginState);
 
-    // On page load, we take "search" parameters 
-    // and proxy them to /api/auth/callback on our Laravel API
+
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     useEffect(() => {
 
         fetch(`https://thombrix-backend.herokuapp.com/auth/google/callback${location.search}`, {
@@ -23,57 +27,49 @@ function GoogleCallback() {
                 return response.json();
             })
             .then((data) => {
-                setLoading(false);
-                setData(data);
+                // setLoading(false);
+                dispatch(gooogleAuthToken(data));
+                navigate('/');
+
+                // setData(data);
+            }).catch((error) => {
+                dispatch(resetState());
             });
-    }, [location.search]);
+    }, [dispatch, location.search, navigate, status]);
 
-    // Helper method to fetch User data for authenticated user
-    // Watch out for "Authorization" header that is added to this call
-    // function fetchUserData() {
-    //     fetch(`http://localhost:80/api/user`, {
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //             'Accept': 'application/json',
-    //             'Authorization': 'Bearer ' + data?.access_token,
-    //         }
-    //     })
-    //         .then((response) => {
-    //             return response.json();
-    //         })
-    //         .then((data) => {
-    //             setUser(data);
-    //         });
+    // if (loading) {
+    //     return <DisplayLoading />;
+    // } else {
+    //     if (user != null) {
+    //         return <DisplayData data={user} />;
+    //     } else {
+    //         return (
+    //             <div>
+    //                 <DisplayData data={data} />
+    //                 {/* <div style={{ marginTop: 10 }}>
+    //                     <button onClick={fetchUserData}>Fetch User</button>
+    //                 </div> */}
+    //             </div>
+    //         );
+    //     }
     // }
-
-    if (loading) {
-        return <DisplayLoading />;
-    } else {
-        if (user != null) {
-            return <DisplayData data={user} />;
-        } else {
-            return (
-                <div>
-                    <DisplayData data={data} />
-                    {/* <div style={{ marginTop: 10 }}>
-                        <button onClick={fetchUserData}>Fetch User</button>
-                    </div> */}
-                </div>
-            );
-        }
-    }
-}
-
-function DisplayLoading() {
-    return <div>Loading....</div>;
-}
-
-function DisplayData(data: any) {
     return (
-        <div>
-            <samp>userInfo: {JSON.stringify(data, null, 2)}</samp>
-        </div>
+        <div>GoogleCallback Page</div>
     );
-}
+};
+
+// function DisplayLoading() {
+//     return <div>Loading....</div>;
+// }
+
+// function DisplayData(data: any) {
+//     return (
+//         <div>
+//             <samp>userInfo: {JSON.stringify(data, null, 2)}</samp>
+//         </div>
+//     );
+// }
 
 export default GoogleCallback;
+
+

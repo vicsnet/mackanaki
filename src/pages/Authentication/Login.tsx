@@ -43,11 +43,12 @@ const Login = () => {
                 password: fields.password
             };
             dispatch(loginUser(data));
+
         }
     };
-    
-    
-    
+
+
+
     useEffect(() => {
         if (status === "failed") {
             form.customToast({ type: "error", message: error });

@@ -48,6 +48,14 @@ const loginSlice = createSlice({
       state.error = "";
       localStorage.removeItem("token");
     },
+    gooogleAuthToken: (state, { payload }) => {
+      state.status = "success";
+      state.token = payload?.data?.data?.access_token;
+      localStorage.setItem(
+        "token",
+        JSON.stringify(payload?.data?.data?.access_token)
+      );
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -70,5 +78,5 @@ const loginSlice = createSlice({
 });
 
 export const getLoginState = (state: RootState) => state.login;
-export const { resetState, logout } = loginSlice.actions;
+export const { resetState, logout, gooogleAuthToken } = loginSlice.actions;
 export default loginSlice.reducer;
