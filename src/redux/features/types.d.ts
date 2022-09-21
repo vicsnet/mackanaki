@@ -8,6 +8,11 @@ interface ILoginState {
   status: "idle" | "loading" | "success" | "failed";
   error: any;
 }
+interface IGoogleAuthState {
+  status: "idle" | "loading" | "success" | "failed";
+  error: any;
+  target_url: string;
+}
 interface IUserProfileState {
   data: { [props: string]: string } | null;
   status: "idle" | "loading" | "success" | "failed";

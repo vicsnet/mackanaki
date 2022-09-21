@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import registerReducer from "../features/authentication/registerSlice";
 import loginReducer from "../features/authentication/loginSlice";
+import googleAuthReducer from "../features/authentication/googleAuthSlice";
 import categoryReducer from "../features/Category/categorySlice";
 import countryReducer from "../features/Country/countrySlice";
 import countryStateReducer from "../features/CountryState/countryStateSlice";
@@ -16,6 +17,7 @@ export const store = configureStore({
     verifyEmail: verifyEmailReducer,
     login: loginReducer,
     userProfile: userProfileReducer,
+    googleAuth: googleAuthReducer,
   },
 });
 

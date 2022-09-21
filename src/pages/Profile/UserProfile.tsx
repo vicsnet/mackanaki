@@ -37,9 +37,9 @@ const UserProfile = () => {
           {/* LOGIN CONTAINER START */}
           <Loader show={status === "loading"} message={<SyncLoader cssOverride={override} color="#c1c1c1" />}>
             <div className="relative">
-              <img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg" className='cursor-pointer md:h-[30rem] h-[20rem] w-full object-cover' alt="bgimage" />
+              <img src={data?.coverphoto} className='cursor-pointer md:h-[30rem] h-[20rem] w-full object-cover' alt="bgimage" />
               <div className="absolute z-1 -bottom-10 left-10 flex items-end">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/800px-Image_created_with_a_mobile_phone.png" className="bg-white w-28 h-28 md:w-40 md:h-40 rounded-xl border-2 drop-shadow-lg" alt="profileimage" />
+                <img src={data?.profilephoto} className="bg-white w-28 h-28 md:w-40 md:h-40 rounded-xl border-2 drop-shadow-lg" alt="profileimage" />
               </div>
             </div>
             <div className="pt-16 px-10 w-full">
@@ -144,7 +144,7 @@ const UserProfile = () => {
               </div>
 
             </div>
-            </Loader>
+          </Loader>
         </PageLayout>
 
       </PageLayout>
