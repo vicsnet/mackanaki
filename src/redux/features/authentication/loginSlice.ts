@@ -50,10 +50,10 @@ const loginSlice = createSlice({
     },
     gooogleAuthToken: (state, { payload }) => {
       state.status = "success";
-      state.token = payload?.data?.data?.access_token;
+      state.token = payload?.data?.access_token;
       localStorage.setItem(
         "token",
-        JSON.stringify(payload?.data?.data?.access_token)
+        JSON.stringify(payload?.data?.access_token)
       );
     },
   },
