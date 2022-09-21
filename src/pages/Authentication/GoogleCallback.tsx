@@ -35,7 +35,9 @@ const GoogleCallback = () => {
             }).catch((error) => {
                 dispatch(resetState());
             });
-    }, [dispatch, location.search, navigate, status]);
+        console.count('ran');
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [dispatch, location.search, status]);
 
     // if (loading) {
     //     return <DisplayLoading />;
