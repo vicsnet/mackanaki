@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import React, { Fragment, useState } from 'react';
+import { MdCloudUpload } from 'react-icons/md';
 import FormSelect from '../../components/form/FormSelect';
 import Button from '../../components/ui/Button';
 import useFormInputValidation from '../../hooks/useFormInputValidation';
@@ -24,18 +25,18 @@ const CreatePost = () => {
   };
 
 
-  const hiddenFileInput = React.useRef<HTMLInputElement>(null);
+  // const hiddenFileInput = React.useRef<HTMLInputElement>(null);
   const [file, setFile] = useState("");
 
-  const handleClick = () => {
-    hiddenFileInput?.current?.click();
-  };
+  // const handleClick = () => {
+  //   hiddenFileInput?.current?.click();
+  // };
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const fileUploaded = event.target.files;
     setFile(URL.createObjectURL(fileUploaded![0]));
     console.log(fileUploaded);
   };
-  
+
   return (
     <Fragment>
       <PageLayout paddingTop='mt-28'>
@@ -50,15 +51,33 @@ const CreatePost = () => {
                   <span className="text-signupTextColor text-xs">File types supported: JPEG, PNG, GIF, SVG, MP4, WEMB, MP3, WAV, OGG, GLB and GLTF. MAX SIZE: 100MB</span>
                 </div>
 
-                <motion.div onClick={handleClick} whileTap={{ scale: 0.9 }} className="border border-dotted  border-gray-500 rounded-lg flex justify-center cursor-pointer items-center w-48 h-36 mt-5 mb-10">
+                <motion.label whileTap={{ scale: 0.9 }} className="border border-dotted  border-gray-500 rounded-lg flex justify-center cursor-pointer items-center w-48 h-36 mt-5 mb-10">
                   {file === '' ? <img src="/icons/image.png" className='cursor-pointer w-10 h-10' alt="profile" /> : <img src={file} className="object-cover" alt="profile" />}
 
                   <input type="file"
-                    ref={hiddenFileInput}
+                    // ref={hiddenFileInput}
+                    name="uploadImage"
+                    accept="image/*"
                     onChange={handleChange}
-                    style={{ display: 'none' }}
+                    // style={{ display: 'none' }}
+                    className="w-0 h-0"
                   />
-                </motion.div>
+                </motion.label>
+{/* 
+                <label className='w-full h-full flex flex-col items-center justify-center cursor-pointer'>
+                  <div className='w-full h-full flex flex-col items-center justify-center gap-2 '>
+                    <MdCloudUpload className='text-gray-500 text-3xl hover:text-gray-700' />
+                    <p className='text-gray-500 hover:text-gray-700'>Click here to upload</p>
+                  </div>
+                  <input type="file"
+                    // ref={hiddenFileInput}
+                    name="uploadImage"
+                    accept="image/*"
+                    onChange={handleChange}
+                    // style={{ display: 'none' }}
+                    className="w-0 h-0"
+                  />
+                </label> */}
 
                 <div className="flex flex-col gap-3 mb-10">
                   <span className="text-signupTextColor text-bold md:text-sm text-xs">Description</span>

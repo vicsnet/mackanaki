@@ -16,9 +16,8 @@ const Header = () => {
     const [showMessagesDropdown, setMessagesShowdropdown] = useState(false);
     const [showSearch, setShowSearch] = useState(false);
     const [showProfileDropdown, setShowProfileDropdown] = useState(false);
+
     const isLoggedIn = useAuth();
-
-
 
     const openActivityMenu = () => {
         setActivityShowdropdown(!showActivityDropdown);
@@ -71,7 +70,7 @@ const Header = () => {
 
                     <AiOutlineMessage onClick={openMessgageMenu} className="cursor-pointer  text-navTextDarkColor text-3xl" />
 
-{/* 
+                    {/* 
                     <Link to="/profile">
                         <img src="/icons/users.png" className='cursor-pointer w-7 h-7' alt="logo" />
                     </Link> */}
@@ -87,8 +86,8 @@ const Header = () => {
                         <img src="/icons/wallet.png" className='cursor-pointer w-7 h-7' alt="logo" />
                     </Link>
                 </div>
-                <div className="lg:hidden flex items-center gap-10">
-                    {showSearch ? <MdOutlineClose onClick={() => setShowSearch(!showSearch)} className=' cursor-pointer text-navTextDarkColor text-3xl' /> : <BiSearch onClick={() => setShowSearch(!showSearch)} className="cursor-pointer  text-navTextDarkColor text-3xl" />}
+                <div className="lg:hidden flex items-center md:gap-10 gap-5">
+                    {showSearch ? <MdOutlineClose onClick={() => setShowSearch(!showSearch)} className=' cursor-pointer text-navTextDarkColor text-3xl' /> : isLoggedIn && <BiSearch onClick={() => setShowSearch(!showSearch)} className="cursor-pointer  text-navTextDarkColor text-3xl" />}
 
                     {showmenu ? <MdOutlineClose onClick={showSideMenu} className=' cursor-pointer text-navTextDarkColor text-3xl' /> : <img onClick={showSideMenu} src="/icons/hamburger.png" className='cursor-pointer w-[30px] h-[20px]' alt="logo" />}
 
@@ -96,7 +95,7 @@ const Header = () => {
 
 
                 {/* SIDEBAR */}
-                {showmenu && <SideBarMenu setShowmenu={setShowmenu} showmenu={showmenu} />}
+                {showmenu && <SideBarMenu setShowmenu={setShowmenu} />}
 
 
                 {/* DROP DOWN MENU POST ACTIVITIES */}

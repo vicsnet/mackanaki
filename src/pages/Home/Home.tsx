@@ -1,6 +1,8 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import PostTile from "../../components/post/PostTile";
 import PageLayout from "../../Layouts/PageLayout";
+import { useAppDispatch } from "../../redux/app/hooks";
+import { getAllPostApi } from "../../redux/features/post/postSlice";
 // import PostTileSkeleton from "../../components/post/PostTileSkeleton";
 
 
@@ -8,6 +10,10 @@ import PageLayout from "../../Layouts/PageLayout";
 const Home = () => {
     // const postSkeletonCount = 4;
     // const id = useId();
+    const dispatch = useAppDispatch();
+    useEffect(() => {
+        dispatch(getAllPostApi());
+    }, [dispatch]);
 
     return (
         <Fragment>

@@ -7,6 +7,7 @@ import countryReducer from "../features/Country/countrySlice";
 import countryStateReducer from "../features/CountryState/countryStateSlice";
 import verifyEmailReducer from "../features/authentication/verifyEmailSlice";
 import userProfileReducer from "../features/user/userProfileSlice";
+import postReducer from "../features/post/postSlice";
 
 export const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ export const store = configureStore({
     login: loginReducer,
     userProfile: userProfileReducer,
     googleAuth: googleAuthReducer,
+    posts: postReducer
   },
 });
 

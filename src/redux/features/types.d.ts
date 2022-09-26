@@ -26,7 +26,7 @@ interface IVerifyState {
 interface ICategoryState {
   categories: { id: string; name: string }[];
   status: "idle" | "loading" | "success" | "failed";
-  errors?: string;
+  errors: any;
 }
 interface ICountryState {
   countries: {
@@ -36,11 +36,17 @@ interface ICountryState {
     name: string;
   }[];
   status: "idle" | "loading" | "success" | "failed";
-  errors?: string;
+  errors: any;
+}
+
+interface IPostState {
+  post: { [props: string]: string }[];
+  status: "idle" | "loading" | "success" | "failed";
+  errors: any;
 }
 
 interface ICountryStateType {
   states: { id: string; name: string }[];
   status: "idle" | "loading" | "success" | "failed";
-  errors?: string;
+  errors: any;
 }

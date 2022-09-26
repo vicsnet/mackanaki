@@ -21,10 +21,10 @@ function App() {
 
       <ThemeContextProvider>
         <Routes>
-          <Route path="/*" element={<Home />} />
 
 
           <Route element={<PrivateRoute />}>
+            <Route path="/*" element={<Home />} />
             <Route path="/profile/:id" element={< PublicProfile />} />
             <Route path="/profile/edit" element={<EditUserProfile />} />
             <Route path="/profile/change-password" element={<ChangePassword />} />
@@ -33,7 +33,7 @@ function App() {
             <Route path="/profile" element={< UserProfile />} />
           </Route>
 
-          <Route path="/auth/google/callback" element={<GoogleCallback />} />
+          <Route path="/auth/google/callback" element={isAuth ? <Navigate to="/" /> : <GoogleCallback />} />
           <Route path="/login" element={isAuth ? <Navigate to="/" /> : <Login />} />
           <Route path="/signup-options" element={isAuth ? <Navigate to="/" /> : <SignupOptions />} />
           <Route path='/signup' element={isAuth ? <Navigate to="/" /> : <Signup />} />

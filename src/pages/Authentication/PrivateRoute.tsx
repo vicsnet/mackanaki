@@ -4,7 +4,6 @@ import useAuth from '../../hooks/useAuth';
 
 const PrivateRoute = () => {
     const isLoggedIn = useAuth();
-    console.log(isLoggedIn);
     const location = useLocation();
 
     return (
