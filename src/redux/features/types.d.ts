@@ -40,9 +40,11 @@ interface ICountryState {
 }
 
 interface IPostState {
-  post: { [props: string]: string }[];
+  post: { [props: string]: any }[];
   status: "idle" | "loading" | "success" | "failed";
   errors: any;
+  liked?: boolean;
+  postAddedStatus?: "idle" | "loading" | "success" | "failed";
 }
 
 interface ICountryStateType {

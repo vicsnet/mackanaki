@@ -7,31 +7,34 @@ import { Provider } from 'react-redux';
 import { store } from './redux/app/store';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import 'react-loading-skeleton/dist/skeleton.css'
+import 'react-loading-skeleton/dist/skeleton.css';
+import { fetchPostFromLS } from './redux/features/post/postSlice';
 
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+store.dispatch(fetchPostFromLS());
 root.render(
   // <React.StrictMode>
-    <Provider store={store}>
-      <ToastContainer
-        position="top-right"
-        autoClose={9000}
-        hideProgressBar={false}
-        newestOnTop={true}
-        theme="dark"
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-      <Router>
-        <App />
-      </Router>
-    </Provider>
+  <Provider store={store}>
+    <ToastContainer
+      position="top-right"
+      autoClose={9000}
+      hideProgressBar={false}
+      newestOnTop={true}
+      theme="dark"
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+    />
+    <Router>
+      <App />
+    </Router>
+  </Provider>
   // </React.StrictMode>
 );
 

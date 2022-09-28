@@ -1,13 +1,13 @@
 
 import React, { CSSProperties, Fragment, useEffect } from 'react';
 import Loader from 'react-loader-advanced';
-import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Link, Navigate, useLocation } from "react-router-dom";
 import { SyncLoader } from 'react-spinners';
 import { toast } from 'react-toastify';
 import SignUpOptionBtn from '../../components/ui/SignUpOptionBtn';
 import PageLayout from '../../Layouts/PageLayout';
 import { useAppDispatch, useAppSelector } from '../../redux/app/hooks';
-import { getGoogleAuthState, resetState } from '../../redux/features/authentication/googleAuthSlice';
+import {  resetState } from '../../redux/features/authentication/googleAuthSlice';
 import { getLoginState, googleCallback } from '../../redux/features/authentication/loginSlice';
 // import { gooogleAuthToken, resetState } from '../../redux/features/authentication/loginSlice';
 
