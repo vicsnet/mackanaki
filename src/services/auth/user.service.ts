@@ -49,6 +49,29 @@ export default class UserService extends BaseService {
     }
   }
 
+  private get checkLocalStorageforUserProfile() {
+    let retrievedObject = localStorage.getItem("profile");
+    if (retrievedObject === null) {
+      return false;
+    }
+    return retrievedObject;
+  }
+
+  get getUserProfileFromLocalStorage() {
+    try {
+      if (this.checkLocalStorageforUserProfile === false) {
+        return [];
+      } else {
+        return JSON.parse(this.checkLocalStorageforUserProfile);
+      }
+    } catch (error) {
+      return [];
+    }
+  }
+
+  updateUserProfileInLS(profile: { [props: string]: string }) {
+    localStorage.setItem("profile", JSON.stringify(profile));
+  }
   async userProfile(token: string) {
     const config = {
       headers: {
@@ -61,6 +84,28 @@ export default class UserService extends BaseService {
       config
     );
 
+    return response.data;
+  }
+  async userProfileEdit(data: EditProfileType, token: string) {
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    let formdata = new FormData();
+    formdata.append("profile_picture", data.profile_picture);
+    formdata.append("cover_picture", data.cover_picture);
+    formdata.append("name", "joghn paul");
+    formdata.append("phone", data.phone);
+    formdata.append("state_id", data.state_id);
+    formdata.append("country_id", data.country_id);
+    const response = await axios.post(
+      this.BASE_URL + "/api/user/profile/edit",
+      formdata,
+      config
+    );
+    console.log(response.data);
     return response.data;
   }
 }

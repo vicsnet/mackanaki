@@ -1,12 +1,14 @@
 interface IFormInput {
   label: string;
-  placeholder: string;
+  placeholder?: string;
   htmlFor: string;
   type?: string;
   name: string;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   className?: string;
   errors: string;
+  value?: string;
+  isDisabled?: boolean;
 }
 interface IFormSelect {
   label: string;

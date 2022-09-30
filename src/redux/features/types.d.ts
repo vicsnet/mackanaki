@@ -17,6 +17,7 @@ interface IUserProfileState {
   data: { [props: string]: string } | null;
   status: "idle" | "loading" | "success" | "failed";
   error: any;
+  userEditStatus: "idle" | "loading" | "success" | "failed";
 }
 interface IVerifyState {
   verified: boolean;
@@ -52,3 +53,12 @@ interface ICountryStateType {
   status: "idle" | "loading" | "success" | "failed";
   errors: any;
 }
+
+type EditProfileType = {
+  profile_picture: string;
+  cover_picture: string;
+  name: string;
+  phone: string;
+  state_id: string;
+  country_id: string;
+};

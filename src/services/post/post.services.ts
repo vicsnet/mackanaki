@@ -67,7 +67,7 @@ export default class PostService extends BaseService {
     return response.data;
   }
 
-  async addPost(data: { description: string; image: string }, token: string) {
+  async addPost(data: { description: string; image: any }, token: string) {
     const config = {
       headers: {
         "Content-Type": "multipart/form-data",
@@ -75,11 +75,6 @@ export default class PostService extends BaseService {
       },
     };
     let formdata = new FormData();
-    // console.log(data.image);
-    //     const imageFile = new File([value], `${Date.now()}.${extension}`, {
-    //       type: data.image.type,
-    // });
-
     formdata.append("image", data.image);
     formdata.append("description", data.description);
     const response = await axios.post(
@@ -87,6 +82,8 @@ export default class PostService extends BaseService {
       formdata,
       config
     );
+ 
     return response.data;
   }
+  
 }

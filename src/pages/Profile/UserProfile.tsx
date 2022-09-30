@@ -10,7 +10,7 @@ import PageLayout from '../../Layouts/PageLayout';
 import { MdRefresh } from 'react-icons/md';
 import ProfilePostCard from '../../components/post/ProfilePostCard';
 import { Link } from 'react-router-dom';
-import { getUserProfileData, userProfile } from '../../redux/features/user/userProfileSlice';
+import { fetchUserProfileFromLS, getUserProfileData, userProfile } from '../../redux/features/user/userProfileSlice';
 import { useAppDispatch, useAppSelector } from '../../redux/app/hooks';
 import Loader from 'react-loader-advanced';
 import { SyncLoader } from 'react-spinners';
@@ -27,6 +27,7 @@ const UserProfile = () => {
   };
 
   useEffect(() => {
+    dispatch(fetchUserProfileFromLS());
     dispatch(userProfile());
   }, [dispatch]);
 

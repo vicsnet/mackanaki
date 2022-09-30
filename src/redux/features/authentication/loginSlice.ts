@@ -67,6 +67,7 @@ const loginSlice = createSlice({
       state.status = "idle";
       state.error = "";
       localStorage.removeItem("token");
+      localStorage.removeItem("profile");
     },
   },
   extraReducers: (builder) => {

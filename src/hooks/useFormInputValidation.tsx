@@ -6,9 +6,12 @@ const useFormInputValidation = (formFields: IFormFieldObj, rules: IRules): [fiel
     let [errors, setErrors] = useState<IErrors>({});
     let [tempPassword, setTempPassword] = useState("");
     let form = new InputValidator(setFields, fields, setErrors, errors, rules, tempPassword, setTempPassword);
-
-
-    let isEmptyInput = Object.values(fields).some(field => field.trim().length === 0);
+    let isEmptyInput;
+    try {
+        isEmptyInput = Object.values(fields).some(field => field.trim().length === 0);
+    } catch (error) {
+        isEmptyInput = true;
+    }
     let validFormData: boolean;
     if (form.isFormValid === false && isEmptyInput === false) {
         validFormData = false;

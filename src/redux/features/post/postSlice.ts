@@ -71,7 +71,7 @@ export const unlikePostApi = createAsyncThunk(
 
 export const addPostApi = createAsyncThunk(
   "post/create",
-  async (data: { description: string; image: string }, thunkAPI) => {
+  async (data: { description: string; image: any }, thunkAPI) => {
     try {
       const token = (thunkAPI.getState() as RootState).login.token as string;
       const response = await postService.addPost(data, token as string);
