@@ -38,9 +38,9 @@ const UserProfile = () => {
           {/* LOGIN CONTAINER START */}
           <Loader show={status === "loading"} message={<SyncLoader cssOverride={override} color="#c1c1c1" />}>
             <div className="relative">
-              <img src={data?.coverphoto} className='cursor-pointer md:h-[30rem] h-[20rem] w-full object-cover' alt="bgimage" />
+              <img src={data?.coverphoto ? data?.coverphoto : "/img/noimage.png"} className='cursor-pointer md:h-[30rem] h-[20rem] w-full object-cover' alt="bgimage" />
               <div className="absolute z-1 -bottom-10 left-10 flex items-end">
-                <img src={data?.profilephoto} className="bg-white w-28 h-28 md:w-40 md:h-40 rounded-xl border-2 drop-shadow-lg" alt="profileimage" />
+                <img src={data?.profilephoto ? data?.profilephoto : "/img/noimage.png"} className="bg-white w-28 h-28 md:w-40 md:h-40 rounded-xl border-2 drop-shadow-lg" alt="profileimage" />
               </div>
             </div>
             <div className="pt-16 px-10 w-full">
@@ -83,7 +83,7 @@ const UserProfile = () => {
               {/* TAGS START */}
               <div className="flex gap-3 flex-wrap justify-between">
                 <div className="flex items-center gap-2 px-5 py-2 cursor-pointer border border-navTextDarkColor">
-                  <button className='text-[13px] font-semibold text-navTextDarkColor bg-transparent'>{data?.category}</button>
+                  <button className='text-[13px] font-semibold text-navTextDarkColor bg-transparent'>{data?.category? data?.category: "No category set"}</button>
                 </div>
                 <div className="flex items-center gap-2 px-5 py-2 cursor-pointer border border-navTextDarkColor"> <GoLocation className="font-semibold cursor-pointer  text-navTextDarkColor text-lg" />
                   <button className='text-[13px] font-semibold text-navTextDarkColor bg-transparent'>{data?.state}, {data?.country}</button>
@@ -93,27 +93,27 @@ const UserProfile = () => {
 
 
               {/* DESCRIPTION START */}
-              <p className="text-md text-text-md text-navTextDarkColor mr-2 mt-4 mb-2 md:w-1/2 w-full text-justify">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quas voluptas quasi fuga reiciendis aperiam voluptatem, molestiae nihil, ullam beatae porro odio incidunt sequi sed modi veniam maiores autem perspiciatis maxime</p>
-              <p className="text-navTextDarkColor text-md font-semibold cursor-pointer">+ more</p>
+              <p className="text-md text-text-md text-navTextDarkColor mr-2 mt-4 mb-2 md:w-1/2 w-full text-justify">{data?.bio ? data?.bio : "No bio"}</p>
+              {/* <p className="text-navTextDarkColor text-md font-semibold cursor-pointer">+ more</p> */}
               {/* DESCRIPTION END */}
 
 
               {/* FOLLOWER, FOLLOWEING, POST LIKES AND TOTAL LIKES COUNT START*/}
               <div className="flex flex-wrap gap-5 md:gap-9 mt-6 mb-16 w-full">
                 <div className="flex flex-col items-center gap-1">
-                  <p className="text-navTextDarkColor text-base text-[20px] lg:text-[30px] cursor-pointer">1.1k</p>
+                  <p className="text-navTextDarkColor text-base text-[20px] lg:text-[30px] cursor-pointer">{data?.no_of_followers}</p>
                   <p className="text-navTextDarkColor text-base cursor-pointer">followers</p>
                 </div>
                 <div className="flex flex-col items-center gap-1">
-                  <p className="text-navTextDarkColor text-base text-[20px] lg:text-[30px] cursor-pointer">587</p>
+                  <p className="text-navTextDarkColor text-base text-[20px] lg:text-[30px] cursor-pointer">0</p>
                   <p className="text-navTextDarkColor text-base cursor-pointer">following</p>
                 </div>
                 <div className="flex flex-col items-center gap-1">
-                  <p className="text-navTextDarkColor text-base text-[20px] lg:text-[30px] cursor-pointer">350</p>
+                  <p className="text-navTextDarkColor text-base text-[20px] lg:text-[30px] cursor-pointer">0</p>
                   <p className="text-navTextDarkColor text-base cursor-pointer">total post</p>
                 </div>
                 <div className="flex flex-col items-center gap-1">
-                  <p className="text-navTextDarkColor text-base text-[20px] lg:text-[30px] cursor-pointer">10.4k</p>
+                  <p className="text-navTextDarkColor text-base text-[20px] lg:text-[30px] cursor-pointer">0</p>
                   <p className="text-navTextDarkColor text-base cursor-pointer">total likes</p>
                 </div>
               </div>

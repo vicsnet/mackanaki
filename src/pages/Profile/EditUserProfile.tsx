@@ -53,6 +53,7 @@ const EditUserProfile = () => {
         name: fields.name,
         country_id: fields.country,
         state_id: fields.state,
+        bio: fields.bio,
         phone: fields.phone_number,
         cover_picture: profilePhoto,
         profile_picture: profilePhoto
@@ -143,10 +144,10 @@ const EditUserProfile = () => {
           <div className="flex flex-1 w-full md:w-auto flex-col gap-7 border border-gray-500 py-7 px-5 md:px-10">
             <Loader show={userEditStatus === "loading"} backgroundStyle={{ background: "none" }} message={<BounceLoader cssOverride={override} color="#c1c1c1" />}>
               <div className="flex items-center gap-5">
-                {profilePhoto ? <img src={URL.createObjectURL(profilePhoto)} className='transition ease-in-out duration-300 hover:scale-110 rounded-full border cursor-pointer md:w-14 md:h-14 w-10 h-10' alt="profile" /> : <img src="/icons/image.png" className='transition ease-in-out duration-300 hover:scale-110 rounded-full border cursor-pointer md:w-14 md:h-14 w-10 h-10' alt="profile" />}
+                {profilePhoto ? <img src={URL.createObjectURL(profilePhoto)} className='transition ease-in-out duration-300 hover:scale-110 rounded-full border cursor-pointer md:w-14 md:h-14 w-10 h-10' alt="profile" /> : <img src={profiledata?.profilephoto ? profiledata?.profilephoto : "/icons/image.png"} className='transition ease-in-out duration-300 hover:scale-110 rounded-full border cursor-pointer md:w-14 md:h-14 w-10 h-10' alt="profile" />}
 
                 <div className="flex flex-col gap-1">
-                  <p className="cursor-pointer md:text-lg text-base text-navTextDarkColor">Thrombrixproject</p>
+                  <p className="cursor-pointer md:text-lg text-base text-navTextDarkColor">{profiledata?.name}</p>
                   <label htmlFor="profile_photo" className="cursor-pointer md:text-sm text-xs text-primaryColor">Change profile photo</label>
                   <input type="file"
                     id="profile_photo"
@@ -174,7 +175,7 @@ const EditUserProfile = () => {
                 <div className="flex items-center gap-5 mt-7">
                   <label className="w-[130px] text-signupTextColor md:text-sm text-xs">Bio</label>
                   <div className="flex flex-col w-full">
-                    <textarea style={{ height: "170px" }} onChange={(e) => form.handleTextAreaChangeEvent(e)} className={`p-4 w-full bg-transparent border border-gray-500 rounded-md md:h-12 h-10 outline-none px-5 text-navTextDarkColor md:text-sm text-xs  ${errors?.bio && "border-red-600 border-2"}`} name="bio"></textarea>
+                    <textarea style={{ height: "170px" }} onChange={(e) => form.handleTextAreaChangeEvent(e)} className={`p-4 w-full bg-transparent border border-gray-500 rounded-md md:h-12 h-10 outline-none px-5 text-navTextDarkColor md:text-sm text-xs  ${errors?.bio && "border-red-600 border-2"}`} name="bio">{fields?.bio}</textarea>
                     {errors?.bio && <span className="text-red-600 md:text-sm text-xs mt-2">{errors?.bio}</span>}
                   </div>
                 </div>

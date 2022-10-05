@@ -5,8 +5,9 @@ import { RootState } from "../../app/store";
 const initialState: IPostState = {
   post: [],
   status: "idle",
+  likeStatus: "idle",
   errors: "",
-  liked: false,
+  likeMsg: "",
   postAddedStatus: "idle",
 };
 
@@ -16,7 +17,7 @@ export const getAllPostApi = createAsyncThunk(
   "post/getAll",
   async (data, thunkAPI) => {
     try {
-      const token = (thunkAPI.getState() as RootState).login.token;
+      const token = (thunkAPI.getState() as RootState).login.token as string;
       const response = await postService.getAllPost(token as string);
       return response;
     } catch (error: any) {
@@ -109,6 +110,8 @@ const postSlice = createSlice({
     postStateReset: (state) => {
       state.status = "idle";
       state.postAddedStatus = "idle";
+      state.likeStatus = "idle";
+      state.likeMsg = "";
       state.errors = "";
     },
   },
@@ -120,7 +123,7 @@ const postSlice = createSlice({
       .addCase(getAllPostApi.fulfilled, (state, { payload }) => {
         state.status = "success";
         state.post = payload?.data?.data;
-        postService.updatePostInLS(payload?.data?.data);
+        // postService.updatePostInLS(payload?.data?.data);
       })
       .addCase(getAllPostApi.rejected, (state, { payload }) => {
         state.status = "failed";
@@ -135,29 +138,19 @@ const postSlice = createSlice({
       .addCase(addPostApi.rejected, (state, { payload }) => {
         state.postAddedStatus = "failed";
         state.errors = payload as string;
+      })
+      .addCase(likePostApi.pending, (state, { payload }) => {
+        state.likeStatus = "loading";
+      })
+      .addCase(likePostApi.fulfilled, (state, { payload }) => {
+        state.likeStatus = "success";
+        state.likeMsg = payload?.message;
+      })
+      .addCase(likePostApi.rejected, (state, { payload }) => {
+        state.likeStatus = "failed";
+        state.errors = payload;
       });
-    // .addCase(likePostApi.pending, (state, { payload }) => {
-    //   state.status = "loading";
-    // })
-    // .addCase(likePostApi.fulfilled, (state, { payload }) => {
-    //   state.status = "success";
-    //   state.liked = payload?.status;
-    // })
-    // .addCase(likePostApi.rejected, (state, { payload }) => {
-    //   state.status = "failed";
-    //   state.errors = payload;
-    // })
-    // .addCase(unlikePostApi.pending, (state, { payload }) => {
-    //   state.status = "loading";
-    // })
-    // .addCase(unlikePostApi.fulfilled, (state, { payload }) => {
-    //   state.status = "success";
-    //   state.liked = payload?.status;
-    // })
-    // .addCase(unlikePostApi.rejected, (state, { error }) => {
-    //   state.status = "failed";
-    //   state.errors = error.message;
-    // });
+ 
   },
 });
 

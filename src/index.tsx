@@ -8,14 +8,14 @@ import { store } from './redux/app/store';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-loading-skeleton/dist/skeleton.css';
-import { fetchPostFromLS } from './redux/features/post/postSlice';
+// import { fetchPostFromLS } from './redux/features/post/postSlice';
 
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-store.dispatch(fetchPostFromLS());
+// store.dispatch(fetchPostFromLS());
 root.render(
   // <React.StrictMode>
   <Provider store={store}>

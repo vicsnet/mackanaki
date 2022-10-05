@@ -1,34 +1,67 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { motion } from "framer-motion";
-import { useAppDispatch } from '../../redux/app/hooks';
-import { likePost, unLikePost } from '../../redux/features/post/postSlice';
+import { useAppDispatch, useAppSelector } from '../../redux/app/hooks';
+import { getAllPostApi, getAllPostState, likePostApi, postStateReset } from '../../redux/features/post/postSlice';
+import { toast } from 'react-toastify';
 
 
 
-const PostTile = ({ post, errors }: IPostState) => {
-    const [hasLikedPost, setHasLikedPost] = useState(false);
+const PostTile = ({ post, errors, status }: IPostState) => {
+    // const [hasLikedPost, setHasLikedPost] = useState(false);
     const dispatch = useAppDispatch();
-    // const { liked, errors: err } = useAppSelector(getAllPostState);
+    const { errors: err, likeStatus, likeMsg } = useAppSelector(getAllPostState);
+
+    useEffect(() => {
+
+        if (likeStatus === "success") {
+            toast.success(likeMsg, {
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+            dispatch(getAllPostApi());
+            dispatch(postStateReset());
+        } else if (likeStatus === "failed") {
+            toast.error(err, {
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+            dispatch(postStateReset());
+
+        }
+
+    }, [err, likeMsg, likeStatus, dispatch]);
+
 
 
     const likeAndUnlikePost = (id: string) => {
-        setHasLikedPost(!hasLikedPost);
-        if (hasLikedPost) {
-            // dispatch(unlikePostApi(id));
-            dispatch(unLikePost(id));
-        } else {
-            dispatch(likePost(id));
+        // setHasLikedPost(!hasLikedPost);
+        // if (hasLikedPost) {
 
-        }
+        // } else {
+        dispatch(likePostApi(id));
+        // dispatch(likePost(id));
+
+        // }
     };
+
+
+
     return (
         <Fragment>
             {post.length > 0 ? post.map((postItem) => (
                 <div key={postItem?.id} className="flex flex-col pb-10">
-                    <img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg" className='cursor-pointer md:h-[30rem] h-[20rem] object-cover' alt="" />
+                    <img src={postItem?.image ? "" : "/img/noimage.png"} className='cursor-pointer md:h-[30rem] h-[20rem] object-cover' alt="" />
                     <div className="relative flex bg-gray-600 border-b-2 border-slate-700">
                         <div className="absolute -top-5 left-5 flex items-end">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/800px-Image_created_with_a_mobile_phone.png" className="bg-white w-12 h-12 top-0 rounded-lg border-2 drop-shadow-lg" alt="" />
+                            <img src={postItem?.owner?.profilephoto ? postItem?.owner?.profilephoto : "/img/noimage.png"} className="bg-white w-12 h-12 top-0 rounded-lg border-2 drop-shadow-lg" alt="" />
                             <div className="flex items-center justify-center">
                                 <p className="text-md text-slate-300 ml-4 mr-2 font-semibold">{postItem?.owner?.username}</p>
                                 <img src="icons/MAC-017.png" className="w-5 rounded-lg" alt="" />
@@ -47,15 +80,15 @@ const PostTile = ({ post, errors }: IPostState) => {
 
                         <div className="flex flex-col items-center gap-2">
                             <motion.img whileTap={{ scale: 0.5 }} src="icons/MAC-004.png" className='cursor-pointer w-12 h-12' alt="add" />
-                            <p className="text-white text-[12px]">50</p>
+                            {/* <p className="text-white text-[12px]">50</p> */}
                         </div>
                         <div className="flex flex-col items-center gap-2">
                             <motion.img whileTap={{ scale: 0.5 }} src="icons/MAC-005.png" className='cursor-pointer w-12 h-12' alt="logo" />
-                            <p className="text-white text-[12px]">100</p>
+                            {/* <p className="text-white text-[12px]">100</p> */}
                         </div>
                         <div className="flex flex-col items-center gap-2">
                             <motion.img whileTap={{ scale: 0.5 }} src="icons/MAC-006.png" className='cursor-pointer w-12 h-12' alt="logo" />
-                            <p className="text-white text-[12px]">5</p>
+                            {/* <p className="text-white text-[12px]">5</p> */}
                         </div>
                         <div className="flex flex-col items-center gap-2">
                             <motion.img whileTap={{ scale: 0.5 }} src="icons/MAC-007.png" className='cursor-pointer w-12 h-12' alt="logo" />

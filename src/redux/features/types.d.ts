@@ -43,8 +43,9 @@ interface ICountryState {
 interface IPostState {
   post: { [props: string]: any }[];
   status: "idle" | "loading" | "success" | "failed";
+  likeStatus?: "idle" | "loading" | "success" | "failed";
   errors: any;
-  liked?: boolean;
+  likeMsg?: string;
   postAddedStatus?: "idle" | "loading" | "success" | "failed";
 }
 
@@ -58,6 +59,7 @@ type EditProfileType = {
   profile_picture: string;
   cover_picture: string;
   name: string;
+  bio: string;
   phone: string;
   state_id: string;
   country_id: string;

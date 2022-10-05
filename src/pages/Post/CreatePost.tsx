@@ -35,7 +35,7 @@ const CreatePost = () => {
         image: file
       };
       dispatch(addPostApi(data));
-      navigate('/');
+      // navigate('/');
     }
   };
 
@@ -113,7 +113,7 @@ const CreatePost = () => {
                       />
                     </motion.label> */}
                   </div>
-                  
+
 
                   <div className="flex flex-col gap-3 mb-10">
                     <span className="text-signupTextColor text-bold md:text-sm text-xs">Description</span>

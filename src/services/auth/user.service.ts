@@ -96,8 +96,9 @@ export default class UserService extends BaseService {
     let formdata = new FormData();
     formdata.append("profile_picture", data.profile_picture);
     formdata.append("cover_picture", data.cover_picture);
-    formdata.append("name", "joghn paul");
+    formdata.append("name", data.name);
     formdata.append("phone", data.phone);
+    formdata.append("bio", data.bio);
     formdata.append("state_id", data.state_id);
     formdata.append("country_id", data.country_id);
     const response = await axios.post(
