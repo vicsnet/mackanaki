@@ -54,7 +54,7 @@ const PostModal = ({ showModal, setShowModal }: showModalTypes) => {
                       isActive: true,
                       video: post?.video
                     }))} whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.5 }} className="flex md:h-[30rem] h-[20rem] justify-center items-center">
-                      <img src={post?.image ? post?.image : "/icons/play-button.png"} className='cursor-pointer h-20' alt="" />
+                      <img src={!post?.image ? post?.image : "/icons/play-button.png"} className='cursor-pointer h-20' alt="" />
                     </motion.div>
                     :
                     <img src={post?.image ? post?.image : "/img/noimagebig.png"} className='cursor-pointer md:h-[30rem] h-[20rem] object-cover' alt="" />

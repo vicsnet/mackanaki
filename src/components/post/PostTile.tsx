@@ -69,7 +69,7 @@ const PostTile = ({ post, errors, status }: IPostState) => {
             {showModal && <PostModal status={status} showModal={showModal} setShowModal={setShowModal} />}
             {post.length > 0 ? post.map((postItem) => (
                 <div key={postItem?.id} className="flex flex-col pb-10">
-                    <img src={postItem?.image ? "" : "/img/noimagebig.png"} className='cursor-pointer md:h-[30rem] h-[20rem] object-cover' alt="" />
+                    <img src={postItem?.image ? postItem?.image : "/img/noimagebig.png"} className='cursor-pointer md:h-[30rem] h-[20rem] object-cover' alt="" />
                     <div className="relative flex bg-gray-600 border-b-2 border-slate-700">
                         <div className="absolute -top-5 left-5 flex items-end">
                             <img src={postItem?.owner?.profilephoto ? postItem?.owner?.profilephoto : "/img/noimage.png"} className="bg-white w-12 h-12 top-0 rounded-lg border-2 drop-shadow-lg" alt="" />
