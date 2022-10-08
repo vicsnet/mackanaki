@@ -13,7 +13,6 @@ const EditProfileFormSelect = ({ label, htmlFor, className, onChange, name, erro
         status === "loading" ? <option value="">loading...</option> :
             countries?.map((country, id) => (
                 <option key={id} value={country.id}>{country.name}</option>
-
             ))
     );
 

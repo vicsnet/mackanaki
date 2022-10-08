@@ -30,7 +30,7 @@ const EditUserProfile = () => {
     country: profiledata?.country,
     state: profiledata?.state,
     phone_number: profiledata?.phone,
-    bio: "",
+    bio: profiledata?.bio,
     website: "",
   }, {
     name: "required",
@@ -79,6 +79,7 @@ const EditUserProfile = () => {
 
   useEffect(() => {
     dispatch(getCountriesApi());
+    dispatch(userProfile());
 
     if (userEditStatus === "failed") {
       form.customToast({ type: "error", message: profileErrMsg });
@@ -175,7 +176,9 @@ const EditUserProfile = () => {
                 <div className="flex items-center gap-5 mt-7">
                   <label className="w-[130px] text-signupTextColor md:text-sm text-xs">Bio</label>
                   <div className="flex flex-col w-full">
-                    <textarea style={{ height: "170px" }} onChange={(e) => form.handleTextAreaChangeEvent(e)} className={`p-4 w-full bg-transparent border border-gray-500 rounded-md md:h-12 h-10 outline-none px-5 text-navTextDarkColor md:text-sm text-xs  ${errors?.bio && "border-red-600 border-2"}`} name="bio">{fields?.bio}</textarea>
+
+                    <textarea defaultValue={fields?.bio} style={{ height: "170px" }} onChange={(e) => form.handleTextAreaChangeEvent(e)} className={`p-4 w-full bg-transparent border border-gray-500 rounded-md md:h-12 h-10 outline-none px-5 text-navTextDarkColor md:text-sm text-xs  ${errors?.bio && "border-red-600 border-2"}`} name="bio"></textarea>
+
                     {errors?.bio && <span className="text-red-600 md:text-sm text-xs mt-2">{errors?.bio}</span>}
                   </div>
                 </div>

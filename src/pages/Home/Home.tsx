@@ -27,9 +27,9 @@ const Home = () => {
                 <div className="w-full md:w-1/2 mx-auto">
                     {/* {Array(postSkeletonCount).fill(<PostTileSkeleton key={id}/>)} */}
                     {
-                        status === "loading" && (<PostTileSkeleton />)
+                        status === "loading" ? <PostTileSkeleton /> :
+                            <PostTile post={post} errors={errors} status={status} />
                     }
-                    <PostTile post={post} errors={errors} status={status} />
                 </div>
             </PageLayout>
         </Fragment>

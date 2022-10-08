@@ -3,11 +3,17 @@ import { motion } from "framer-motion";
 import { useAppDispatch, useAppSelector } from '../../redux/app/hooks';
 import { getAllPostApi, getAllPostState, likePostApi, postStateReset } from '../../redux/features/post/postSlice';
 import { toast } from 'react-toastify';
+import PostModal from './PostModal';
 
 
 
 const PostTile = ({ post, errors, status }: IPostState) => {
-    // const [hasLikedPost, setHasLikedPost] = useState(false);
+    const [showModal, setShowModal] = useState<{
+        isActive: boolean;
+        post?: { [props: string]: any; };
+    }>({
+        isActive: false
+    });
     const dispatch = useAppDispatch();
     const { errors: err, likeStatus, likeMsg } = useAppSelector(getAllPostState);
 
@@ -42,23 +48,28 @@ const PostTile = ({ post, errors, status }: IPostState) => {
 
 
     const likeAndUnlikePost = (id: string) => {
-        // setHasLikedPost(!hasLikedPost);
-        // if (hasLikedPost) {
-
-        // } else {
         dispatch(likePostApi(id));
-        // dispatch(likePost(id));
+    };
 
-        // }
+    const postDetailModal = (postItem: {
+        [props: string]: any;
+    }) => {
+        console.log(postItem);
+        setShowModal((prev) => ({
+            ...prev,
+            isActive: true,
+            post: postItem
+        }));
     };
 
 
 
     return (
         <Fragment>
+            {showModal && <PostModal status={status} showModal={showModal} setShowModal={setShowModal} />}
             {post.length > 0 ? post.map((postItem) => (
                 <div key={postItem?.id} className="flex flex-col pb-10">
-                    <img src={postItem?.image ? "" : "/img/noimage.png"} className='cursor-pointer md:h-[30rem] h-[20rem] object-cover' alt="" />
+                    <img src={postItem?.image ? "" : "/img/noimagebig.png"} className='cursor-pointer md:h-[30rem] h-[20rem] object-cover' alt="" />
                     <div className="relative flex bg-gray-600 border-b-2 border-slate-700">
                         <div className="absolute -top-5 left-5 flex items-end">
                             <img src={postItem?.owner?.profilephoto ? postItem?.owner?.profilephoto : "/img/noimage.png"} className="bg-white w-12 h-12 top-0 rounded-lg border-2 drop-shadow-lg" alt="" />
@@ -78,14 +89,14 @@ const PostTile = ({ post, errors, status }: IPostState) => {
                             <p className="text-white text-[12px]">{postItem?.likescount}</p>
                         </div>
 
-                        <div className="flex flex-col items-center gap-2">
+                        <div onClick={(e) => postDetailModal(postItem)} className="flex flex-col items-center gap-2">
                             <motion.img whileTap={{ scale: 0.5 }} src="icons/MAC-004.png" className='cursor-pointer w-12 h-12' alt="add" />
                             {/* <p className="text-white text-[12px]">50</p> */}
                         </div>
-                        <div className="flex flex-col items-center gap-2">
+                        {/* <div className="flex flex-col items-center gap-2">
                             <motion.img whileTap={{ scale: 0.5 }} src="icons/MAC-005.png" className='cursor-pointer w-12 h-12' alt="logo" />
-                            {/* <p className="text-white text-[12px]">100</p> */}
-                        </div>
+                          
+                        </div> */}
                         <div className="flex flex-col items-center gap-2">
                             <motion.img whileTap={{ scale: 0.5 }} src="icons/MAC-006.png" className='cursor-pointer w-12 h-12' alt="logo" />
                             {/* <p className="text-white text-[12px]">5</p> */}
