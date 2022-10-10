@@ -35,7 +35,6 @@ const CreatePost = () => {
         image: file
       };
       dispatch(addPostApi(data));
-      // navigate('/');
     }
   };
 
@@ -53,18 +52,16 @@ const CreatePost = () => {
     else if (postAddedStatus === "success") {
       form.customToast({ type: "success", message: "Post has been Uploaded!" });
       dispatch(postStateReset());
+      navigate('/');
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, postAddedStatus, postErr]);
   // const hiddenFileInput = React.useRef<HTMLInputElement>(null);
 
-  // const handleClick = () => {
-  //   hiddenFileInput?.current?.click();
-  // };
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const fileUploaded = event.target.files;
-    // console.log(fileUploaded![0].type)
 
     setFile(fileUploaded![0]);
   };

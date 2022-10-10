@@ -4,11 +4,13 @@ import { RootState } from "../../app/store";
 
 const initialState: IPostState = {
   post: [],
+  comments: [],
   status: "idle",
   likeStatus: "idle",
   errors: "",
   likeMsg: "",
   postAddedStatus: "idle",
+  commentStatus: "idle",
 };
 
 const postService = new PostService();
@@ -50,6 +52,27 @@ export const likePostApi = createAsyncThunk(
     }
   }
 );
+export const getAllPostCommentApi = createAsyncThunk(
+  "post/getallcomments",
+  async (data: string, thunkAPI) => {
+    try {
+      const token = (thunkAPI.getState() as RootState).login.token as string;
+      const response = await postService.getAllPostComment(
+        data,
+        token as string
+      );
+      return response;
+    } catch (error: any) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
 
 export const unlikePostApi = createAsyncThunk(
   "post/unlike",
@@ -76,6 +99,25 @@ export const addPostApi = createAsyncThunk(
     try {
       const token = (thunkAPI.getState() as RootState).login.token as string;
       const response = await postService.addPost(data, token as string);
+      return response;
+    } catch (error: any) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const addCommentApi = createAsyncThunk(
+  "post/comment-create",
+  async (data: { id: string; body: string }, thunkAPI) => {
+    try {
+      const token = (thunkAPI.getState() as RootState).login.token as string;
+      const response = await postService.addComment(data, token as string);
       return response;
     } catch (error: any) {
       const message =
@@ -149,12 +191,35 @@ const postSlice = createSlice({
       .addCase(likePostApi.rejected, (state, { payload }) => {
         state.likeStatus = "failed";
         state.errors = payload;
+      })
+      .addCase(addCommentApi.pending, (state, { payload }) => {
+        state.commentStatus = "loading";
+      })
+      .addCase(addCommentApi.fulfilled, (state, { payload }) => {
+        state.commentStatus = "success";
+        const lastPost = payload?.data.length - 1;
+        state.comments?.push(payload?.data[lastPost]);
+      })
+      .addCase(addCommentApi.rejected, (state, { payload }) => {
+        state.commentStatus = "failed";
+        state.errors = payload;
+      })
+      .addCase(getAllPostCommentApi.pending, (state, { payload }) => {
+        state.commentStatus = "loading";
+      })
+      .addCase(getAllPostCommentApi.fulfilled, (state, { payload }) => {
+        state.commentStatus = "success";
+        state.comments = payload.data;
+      })
+      .addCase(getAllPostCommentApi.rejected, (state, { payload }) => {
+        state.commentStatus = "failed";
+        state.errors = payload;
       });
- 
   },
 });
 
 export const getAllPostState = (state: RootState) => state.posts;
+
 export const { fetchPostFromLS, likePost, unLikePost, postStateReset } =
   postSlice.actions;
 export default postSlice.reducer;

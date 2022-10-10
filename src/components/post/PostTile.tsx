@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { motion } from "framer-motion";
 import { useAppDispatch, useAppSelector } from '../../redux/app/hooks';
-import { getAllPostApi, getAllPostState, likePostApi, postStateReset } from '../../redux/features/post/postSlice';
+import { getAllPostApi, getAllPostCommentApi, getAllPostState, likePostApi, postStateReset } from '../../redux/features/post/postSlice';
 import { toast } from 'react-toastify';
 import PostModal from './PostModal';
 
@@ -16,7 +16,6 @@ const PostTile = ({ post, errors, status }: IPostState) => {
     });
     const dispatch = useAppDispatch();
     const { errors: err, likeStatus, likeMsg } = useAppSelector(getAllPostState);
-
     useEffect(() => {
 
         if (likeStatus === "success") {
@@ -54,12 +53,13 @@ const PostTile = ({ post, errors, status }: IPostState) => {
     const postDetailModal = (postItem: {
         [props: string]: any;
     }) => {
-        console.log(postItem);
         setShowModal((prev) => ({
             ...prev,
             isActive: true,
             post: postItem
         }));
+        dispatch(getAllPostCommentApi(postItem.id));
+
     };
 
 

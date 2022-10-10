@@ -11,6 +11,7 @@ import useAuth from '../../hooks/useAuth';
 import { useAppDispatch } from '../../redux/app/hooks';
 import { logout } from '../../redux/features/authentication/loginSlice';
 import MobileMenuLink from './MobileMenuLink';
+import { MdPostAdd } from 'react-icons/md';
 
 const SideBarMenu = ({ setShowmenu }: { setShowmenu: Function; }) => {
 
@@ -20,10 +21,15 @@ const SideBarMenu = ({ setShowmenu }: { setShowmenu: Function; }) => {
     return (
         <motion.div initial={{ opacity: 0, scale: 0.6 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.6 }} className="lg:hidden flex absolute top-[5rem] right-0 w-full md:w-1/2 bg-bgDarkColor h-[92vh] flex-col justify-between">
 
-            <div className="gap-14 flex-col flex mx-10 mt-10">
+            <div className="gap-14 flex-col flex mx-10 mt-10 overflow-y-auto my-7">
                 <Link to="/profile">
                     <MobileMenuLink setShowmenu={setShowmenu} name="Profile">
                         <BiUserCircle className="md:text-[30px] text-[27px]" />
+                    </MobileMenuLink >
+                </Link>
+                <Link to="/post/create">
+                    <MobileMenuLink setShowmenu={setShowmenu} name="Add Post">
+                        <MdPostAdd className="md:text-[30px] text-[27px]" />
                     </MobileMenuLink >
                 </Link>
                 <Link to="/">

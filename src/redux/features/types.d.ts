@@ -42,11 +42,13 @@ interface ICountryState {
 
 interface IPostState {
   post: { [props: string]: any }[];
+  comments?: { [props: string]: any }[];
   status: "idle" | "loading" | "success" | "failed";
   likeStatus?: "idle" | "loading" | "success" | "failed";
   errors: any;
   likeMsg?: string;
   postAddedStatus?: "idle" | "loading" | "success" | "failed";
+  commentStatus?: "idle" | "loading" | "success" | "failed";
 }
 
 interface ICountryStateType {

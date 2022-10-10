@@ -1,6 +1,6 @@
 import React from 'react';
 
-const EditProfileFormInput = ({ label, placeholder, htmlFor, type, onChange, name, className, errors, value, isDisabled }: IFormInput) => {
+const EditProfileFormInput = ({ label = "", placeholder, htmlFor, type, onChange, name, className, errors, value, isDisabled }: IFormInput) => {
     return (
         <div className="flex items-center gap-5 mt-7">
             <label htmlFor={htmlFor} className="w-[130px] text-signupTextColor md:text-sm text-xs">{label}</label>

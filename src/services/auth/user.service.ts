@@ -106,7 +106,6 @@ export default class UserService extends BaseService {
       formdata,
       config
     );
-    console.log(response.data);
     return response.data;
   }
 }

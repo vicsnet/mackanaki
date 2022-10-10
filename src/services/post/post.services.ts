@@ -82,8 +82,38 @@ export default class PostService extends BaseService {
       formdata,
       config
     );
- 
+
     return response.data;
   }
-  
+
+  async getAllPostComment(id: string, token: string) {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const response = await axios.get(
+      `${this.BASE_URL}/api/post/${id}/comments`,
+      config
+    );
+    return response.data;
+  }
+
+  async addComment(data: { id: string; body: string }, token: string) {
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    let formdata = new FormData();
+    formdata.append("body", data.body);
+    const response = await axios.post(
+      `${this.BASE_URL}/api/post/${data.id}/comment/add`,
+      formdata,
+      config
+    );
+    return response.data;
+  }
 }

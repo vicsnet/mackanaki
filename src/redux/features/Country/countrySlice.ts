@@ -1,4 +1,8 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  createAsyncThunk,
+  createSelector,
+} from "@reduxjs/toolkit";
 import UserService from "../../../services/auth/user.service";
 import { RootState } from "../../app/store";
 
@@ -36,4 +40,9 @@ const countrySlice = createSlice({
 });
 
 export const getAllCountries = (state: RootState) => state.country;
+// export const getSelectedState = createSelector(
+//   [getAllCountries, (state: RootState, stateId) => stateId],
+//   (country, stateId) =>
+//     country.countries.find((country) => country.id === stateId)
+// );
 export default countrySlice.reducer;

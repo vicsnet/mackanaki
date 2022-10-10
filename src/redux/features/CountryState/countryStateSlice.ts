@@ -19,7 +19,7 @@ export const getCountryStateApi = createAsyncThunk(
 // ======= HANDLE API END ==========
 
 const countryStateSlice = createSlice({
-  name: "country",
+  name: "state",
   initialState: initialState,
   reducers: {},
   extraReducers: (builder) => {

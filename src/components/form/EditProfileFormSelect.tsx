@@ -1,7 +1,8 @@
 import React from 'react';
 
 
-const EditProfileFormSelect = ({ label, htmlFor, className, onChange, name, errors, categories, countries, states, status }: IFormSelect) => {
+const EditProfileFormSelect = ({ prevValue = undefined, label = "", htmlFor, className, onChange, name, errors, categories, countries, states, status }: IFormSelect) => {
+
     const category = (
         status === "loading" ? <option value="">loading...</option> :
             categories?.map((category, id) => (
@@ -10,18 +11,21 @@ const EditProfileFormSelect = ({ label, htmlFor, className, onChange, name, erro
             ))
     );
     const country = (
+
         status === "loading" ? <option value="">loading...</option> :
             countries?.map((country, id) => (
-                <option key={id} value={country.id}>{country.name}</option>
+                <option key={id} selected={country.name === prevValue} value={country.id}>{country.name}</option>
             ))
     );
 
     const countrystate = (
         status === "loading" ? <option value="">loading...</option> :
-            states?.map((state, id) => (
-                <option key={id} value={state.id}>{state.name}</option>
+            states?.map((state, id) => {
+                return (
+                    <option key={id} selected={state.name === prevValue} value={state.id}>{state.name}</option>
 
-            ))
+                );
+            })
     );
 
     return (

@@ -13,7 +13,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/app/hooks';
 import { logout } from '../../redux/features/authentication/loginSlice';
 import { getAllCountries, getCountriesApi } from '../../redux/features/Country/countrySlice';
 import { getAllCountryState, getCountryStateApi } from '../../redux/features/CountryState/countryStateSlice';
-import { fetchUserProfileFromLS, getUserProfileData, profileStateReset, userProfile, userProfileApi } from '../../redux/features/user/userProfileSlice';
+import { getUserProfileData, profileStateReset, userProfile, userProfileApi } from '../../redux/features/user/userProfileSlice';
 
 const EditUserProfile = () => {
   const [showmenu, setShowmenu] = useState(false);
@@ -42,8 +42,10 @@ const EditUserProfile = () => {
     website: "required",
     phone_number: "required|minLength:11|maxLength:11",
   });
-
   const [profilePhoto, setProfilePhoto] = useState<any>("");
+  // const isValid = Object.keys(errors).length > 0;
+  // console.log(isValid);
+
 
   const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -79,10 +81,13 @@ const EditUserProfile = () => {
 
   useEffect(() => {
     dispatch(getCountriesApi());
-    dispatch(userProfile());
-
+    // dispatch(userProfile());
+    if (counStatus === "success") {
+      callCountryState();
+    }
     if (userEditStatus === "failed") {
       form.customToast({ type: "error", message: profileErrMsg });
+
       dispatch(profileStateReset());
     }
     else if (userEditStatus === "success") {
@@ -90,12 +95,15 @@ const EditUserProfile = () => {
       dispatch(profileStateReset());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, profileErrMsg, userEditStatus, fetchUserProfileFromLS]);
+  }, [dispatch, profileErrMsg, userEditStatus]);
 
+
+  const callCountryState = () => {
+    const country = countries.find(country => country.name === profiledata?.country);
+    dispatch(getCountryStateApi(country!.id));
+  };
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const fileUploaded = event.target.files;
-    // console.log(fileUploaded![0].type)
-
     setProfilePhoto(fileUploaded![0]);
   };
 
@@ -107,6 +115,7 @@ const EditUserProfile = () => {
       dispatch(getCountryStateApi(value));
     }
   };
+
   return (
     <Fragment>
       <PageLayout paddingTop='mt-32'>
@@ -185,8 +194,12 @@ const EditUserProfile = () => {
 
 
                 <div className="flex flex-wrap lg:flex-nowrap justify-between md:gap-5">
-                  <EditProfileFormSelect label="Country" htmlFor="country" countries={countries} onChange={(e) => selectedCountry(e)} name="country" status={counStatus} errors={errors?.country} />
-                  <EditProfileFormSelect label="State" htmlFor="state" states={states} onChange={(e) => form.selectChange(e)} name="state" status={statesStatus} errors={errors?.state} />
+
+                  <EditProfileFormSelect label="Country" htmlFor="country" prevValue={fields?.country} countries={countries} onChange={(e) => selectedCountry(e)} name="country" status={counStatus} errors={errors?.country} />
+
+
+                  <EditProfileFormSelect label="State" htmlFor="state" states={states} onChange={(e) => form.selectChange(e)} prevValue={fields?.state} name="state" status={statesStatus} errors={errors?.state} />
+
                 </div>
 
                 <EditProfileFormInput label="Website" className={errors?.website && "border-red-600 border-2"} name="website"
@@ -200,16 +213,11 @@ const EditUserProfile = () => {
                 <EditProfileFormInput label="Phone number" className={errors?.phone_number && "border-red-600 border-2"} name="phone_number" value={fields?.phone_number}
                   errors={errors?.phone_number}
                   htmlFor="phone_number" type="number" onChange={(e) => form.handleChangeEvent(e)} />
-
-
-
                 <Button name="Update" disabled={isvalidForm} className="ml-auto" />
               </form>
             </Loader>
           </div>
-
         </div>
-
       </PageLayout>
     </Fragment>
   );

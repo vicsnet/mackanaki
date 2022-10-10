@@ -1,7 +1,11 @@
 import { motion } from 'framer-motion';
 import React from 'react';
 import { MdOutlineClose } from 'react-icons/md';
+import { useAppDispatch, useAppSelector } from '../../redux/app/hooks';
+import { addCommentApi, getAllPostState } from '../../redux/features/post/postSlice';
 import VideoModel from './VideoModel';
+import Comment from './Comment';
+import { PropagateLoader } from 'react-spinners';
 
 
 type showModalTypes = {
@@ -22,9 +26,9 @@ type showModalTypes = {
 
 
 
-
 const PostModal = ({ showModal, setShowModal }: showModalTypes) => {
   const { isActive, post } = showModal;
+  const [body, setBody] = React.useState('');
   const [showVideo, setShowVideo] = React.useState<{
     isActive: boolean;
     video: string | null;
@@ -32,6 +36,26 @@ const PostModal = ({ showModal, setShowModal }: showModalTypes) => {
     isActive: false,
     video: null
   });
+  const { comments, commentStatus } = useAppSelector(getAllPostState);
+
+  const dispatch = useAppDispatch();
+  const onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (body.trim().length === 0) {
+      return;
+    }
+    else {
+      const data = {
+        body,
+        id: post?.id,
+      };
+      dispatch(addCommentApi(data));
+    }
+    setBody('');
+  };
+
+  const allComment = comments?.slice().sort((a, b) => b.id - a.id);
+
   return (
     <>
       {showVideo.isActive && <VideoModel showVideo={showVideo} setShowVideo={setShowVideo} />}
@@ -48,17 +72,7 @@ const PostModal = ({ showModal, setShowModal }: showModalTypes) => {
                   <MdOutlineClose onClick={() => setShowModal((prev) => ({ ...prev, isActive: false }))} className=' cursor-pointer text-navTextDarkColor text-3xl' />
                 </div>
                 <div className="flex flex-col">
-                  {!post?.video ?
-                    <motion.div onClick={() => setShowVideo((prev) => ({
-                      ...prev,
-                      isActive: true,
-                      video: post?.video
-                    }))} whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.5 }} className="flex md:h-[30rem] h-[20rem] justify-center items-center">
-                      <img src={!post?.image ? post?.image : "/icons/play-button.png"} className='cursor-pointer h-20' alt="" />
-                    </motion.div>
-                    :
-                    <img src={post?.image ? post?.image : "/img/noimagebig.png"} className='cursor-pointer md:h-[30rem] h-[20rem] object-cover' alt="" />
-                  }
+                  <img src={post?.image ? post?.image : "/img/noimagebig.png"} className='cursor-pointer md:h-[30rem] h-[20rem] object-cover' alt="" />
 
                   <div className="flex items-center mt-4 ml-4">
                     <img src={post?.owner?.profilephoto ? post?.owner?.profilephoto : "/img/noimage.png"} className="bg-white w-12 h-12 top-0 rounded-full border-2 drop-shadow-lg" alt="" />
@@ -67,16 +81,22 @@ const PostModal = ({ showModal, setShowModal }: showModalTypes) => {
                       <img src="icons/MAC-017.png" className="w-5 rounded-lg" alt="" />
                     </div>
                   </div>
+
                   <div className="pt-7 px-5 pb-4">
                     <p className="text-sm pb-5 text-slate-300 font-bold">{post?.sku}</p>
+                    {!post?.video && <button onClick={() => setShowVideo((prev) => ({
+                      ...prev,
+                      isActive: true,
+                      video: post?.video
+                    }))} className='text-md px-5 mb-4 py-1 text-navTextDarkColor bg-transparent border border-navTextDarkColor'>Watch video</button>}
                     <p className="text-base text-slate-300">{post?.description}</p>
                   </div>
 
-                  <form className="w-full rounded-lg px-4 pt-2">
+                  <form onSubmit={onFormSubmit} className="w-full rounded-lg px-4 pt-2">
                     <div className="flex flex-wrap -mx-3 mb-6">
                       <h2 className="px-4 pt-3 pb-2 text-white text-lg">Add a new comment</h2>
                       <div className="w-full md:w-full px-3 mb-2 mt-2">
-                        <textarea className="p-4 w-full bg-transparent border border-gray-500 rounded-md outline-none px-5 text-navTextDarkColor md:text-sm text-xs " name="body" rows={7} placeholder='Type Your Comment' required></textarea>
+                        <textarea onChange={(e) => setBody(e.target.value)} className="p-4 w-full bg-transparent border border-gray-500 rounded-md outline-none px-5 text-navTextDarkColor md:text-sm text-xs " name="body" value={body} rows={7} placeholder='Type Your Comment' required></textarea>
                         <button className="first-letter:mt-7 cursor-pointer md:text-[14px] text-[12px] md:px-10 md:py-[10px] px-5 py-[7px] mt-4 text-white bg-primaryColor">
                           Post comment
                         </button>
@@ -86,38 +106,16 @@ const PostModal = ({ showModal, setShowModal }: showModalTypes) => {
                   </form>
 
                   <div className="antialiased px-4">
-                    <h3 className="mb-4 text-lg font-semibold text-white">2 Comments</h3>
+                    <h3 className="mb-4 text-lg font-semibold text-white">{comments!.length} Comments</h3>
 
                     <div className="space-y-4">
-                      <div className="flex">
-                        <div className="flex-shrink-0 mr-3">
-                          <img className="mt-2 rounded-full w-8 h-8 sm:w-10 sm:h-10" src="/icons/user.png" alt="" />
-                        </div>
-                        <div className="flex-1 border rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed">
-                          <strong className="text-white">Sarah</strong> <span className="text-xs text-gray-400">3:34 PM</span>
-                          <p className="text-sm text-gray-300">
-                            Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
-                            sed diam nonumy eirmod tempor invidunt ut labore et dolore
-                            magna aliquyam erat, sed diam voluptua.
-                          </p>
 
-                        </div>
-                      </div>
-                      <div className="flex">
-                        <div className="flex-shrink-0 mr-3">
-                          <img className="mt-2 rounded-full w-8 h-8 sm:w-10 sm:h-10" src="/icons/user.png" alt="" />
-                        </div>
-                        <div className="flex-1 border rounded-lg px-4 py-2 sm:px-6 sm:py-4 leading-relaxed">
-                          <strong className="text-white">Sarah</strong> <span className="text-xs text-gray-400">3:34 PM</span>
-                          <p className="text-sm text-gray-300">
-                            Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
-                            sed diam nonumy eirmod tempor invidunt ut labore et dolore
-                            magna aliquyam erat, sed diam voluptua.
-                          </p>
-
-                        </div>
-                      </div>
-
+                      {commentStatus === "loading" ? <div className="flex justify-center">
+                        <PropagateLoader color="#c1c1c1" />
+                      </div> :
+                        comments!.length > 0 ?
+                        allComment!.map((comment, index) => <Comment key={index} comment={comment} />)
+                          : <h3 className="text-white text-lg">No comments</h3>}
 
                     </div>
                   </div>
@@ -134,4 +132,4 @@ const PostModal = ({ showModal, setShowModal }: showModalTypes) => {
   );
 };
 
-export default PostModal;;
+export default PostModal;

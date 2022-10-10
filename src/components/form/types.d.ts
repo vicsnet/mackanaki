@@ -11,6 +11,7 @@ interface IFormInput {
   isDisabled?: boolean;
 }
 interface IFormSelect {
+  prevValue?: string;
   label: string;
   htmlFor: string;
   onChange?: React.ChangeEventHandler<HTMLSelectElement>;

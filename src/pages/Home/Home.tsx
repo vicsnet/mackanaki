@@ -13,6 +13,7 @@ const Home = () => {
     // const id = useId();
     const dispatch = useAppDispatch();
     const { errors, post, status } = useAppSelector(getAllPostState);
+
     useEffect(() => {
         dispatch(getAllPostApi());
     }, [dispatch]);
