@@ -93,6 +93,7 @@ export default class PostService extends BaseService {
         Authorization: `Bearer ${token}`,
       },
     };
+
     const response = await axios.get(
       `${this.BASE_URL}/api/post/${id}/comments`,
       config
@@ -111,7 +112,7 @@ export default class PostService extends BaseService {
     formdata.append("body", data.body);
     const response = await axios.post(
       `${this.BASE_URL}/api/post/${data.id}/comment/add`,
-      formdata,
+      formdata, 
       config
     );
     return response.data;

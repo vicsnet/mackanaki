@@ -106,7 +106,7 @@ const PostModal = ({ showModal, setShowModal }: showModalTypes) => {
                   </form>
 
                   <div className="antialiased px-4">
-                    <h3 className="mb-4 text-lg font-semibold text-white">{comments!.length} Comments</h3>
+                    <h3 className="mb-4 text-lg font-semibold text-white">{comments!.length === 1 ? `${comments!.length} comment` : `${comments!.length} comments`}</h3>
 
                     <div className="space-y-4">
 
@@ -114,7 +114,7 @@ const PostModal = ({ showModal, setShowModal }: showModalTypes) => {
                         <PropagateLoader color="#c1c1c1" />
                       </div> :
                         comments!.length > 0 ?
-                        allComment!.map((comment, index) => <Comment key={index} comment={comment} />)
+                          allComment!.map((comment, index) => <Comment key={index} comment={comment} />)
                           : <h3 className="text-white text-lg">No comments</h3>}
 
                     </div>

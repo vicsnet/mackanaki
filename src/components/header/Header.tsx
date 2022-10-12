@@ -67,8 +67,10 @@ const Header = () => {
 
                     <img src="/icons/heart.png" onClick={openActivityMenu} className='cursor-pointer w-7 h-7' alt="heart" />
 
-
-                    <AiOutlineMessage onClick={openMessgageMenu} className="cursor-pointer  text-navTextDarkColor text-3xl" />
+{/* 
+                    <AiOutlineMessage onClick={openMessgageMenu}
+                        className="cursor-pointer  text-navTextDarkColor text-3xl" /> */}
+                    <img src="/icons/MAC-004.png" onClick={openMessgageMenu} className='cursor-pointer w-7 h-7' alt="add" />
 
                     {/* 
                     <Link to="/profile">
@@ -82,7 +84,7 @@ const Header = () => {
                     }
 
 
-                    <Link to="/profile/wallet">
+                    <Link to="/">
                         <img src="/icons/wallet.png" className='cursor-pointer w-7 h-7' alt="logo" />
                     </Link>
                 </div>
