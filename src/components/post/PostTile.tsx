@@ -83,26 +83,26 @@ const PostTile = ({ post, errors, status }: IPostState) => {
                             <p className="text-base text-slate-300">{postItem?.description}</p>
                         </div>
                     </div>
-                    <div className="relative flex gap-7 py-5 justify-center bg-gray-600">
+                    <div className="relative flex lg:px-16 px-5 md:gap-7 gap-10 py-7 justify-between bg-gray-600">
                         <div onClick={() => likeAndUnlikePost(postItem?.id)} className="flex flex-col items-center gap-2">
-                            <motion.img whileTap={{ scale: 0.5 }} src="icons/MAC-003.png" className='cursor-pointer w-[38px] h-[38px]' alt="home" />
+                            <motion.img whileTap={{ scale: 0.5 }} src="icons/MAC-003.png" className='cursor-pointer md:w-14 w-24' alt="home" />
                             <p className="text-white text-[12px]">{postItem?.likescount}</p>
                         </div>
 
                         <div onClick={(e) => postDetailModal(postItem)} className="flex flex-col items-center gap-2">
-                            <motion.img whileTap={{ scale: 0.5 }} src="icons/MAC-004.png" className='cursor-pointer w-9 h-9' alt="add" />
-                            {/* <p className="text-white text-[9px]">50</p> */}
+                            <motion.img whileTap={{ scale: 0.5 }} src="icons/MAC-004.png" className='cursor-pointer md:w-14 w-24' alt="add" />
+                            {/* <p className="text-white text-[12px]">50</p> */}
                         </div>
                         <div className="flex flex-col items-center gap-2">
-                            <motion.img whileTap={{ scale: 0.5 }} src="icons/MAC-005.png" className='cursor-pointer w-9' alt="logo" />
+                            <motion.img whileTap={{ scale: 0.5 }} src="icons/MAC-005.png" className='cursor-pointer md:w-14 w-24' alt="logo" />
 
                         </div>
                         <div className="flex flex-col items-center gap-2">
-                            <motion.img whileTap={{ scale: 0.5 }} src="icons/MAC-006.png" className='cursor-pointer w-9' alt="logo" />
-                            {/* <p className="text-white text-[9px]">5</p> */}
+                            <motion.img whileTap={{ scale: 0.5 }} src="icons/MAC-006.png" className='cursor-pointer md:w-14 w-24' alt="logo" />
+                            {/* <p className="text-white text-[12px]">5</p> */}
                         </div>
                         <div className="flex flex-col items-center gap-2">
-                            <motion.img whileTap={{ scale: 0.5 }} src="icons/MAC-007.png" className='cursor-pointer w-9' alt="logo" />
+                            <motion.img whileTap={{ scale: 0.5 }} src="icons/MAC-007.png" className='cursor-pointer md:w-14 w-24' alt="logo" />
                         </div>
                     </div>
                 </div>
