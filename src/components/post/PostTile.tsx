@@ -73,6 +73,7 @@ const PostTile = ({ post, errors, status }: IPostState) => {
                     <div className="relative flex bg-gray-600 border-b-2 border-slate-700">
                         <div className="absolute -top-5 left-5 flex items-end">
                             <img src={postItem?.owner?.profilephoto ? postItem?.owner?.profilephoto : "/img/noimage.png"} className="bg-white w-12 h-12 top-0 rounded-lg border-2 drop-shadow-lg" alt="" />
+
                             <div className="flex items-center justify-center">
                                 <p className="text-md text-slate-300 ml-4 mr-2 font-semibold">{postItem?.owner?.username}</p>
                                 <img src="icons/MAC-017.png" className="w-5 rounded-lg" alt="" />
@@ -82,7 +83,9 @@ const PostTile = ({ post, errors, status }: IPostState) => {
                             <p className="text-sm pb-5 text-slate-300 font-bold">{postItem?.sku}</p>
                             <p className="text-base text-slate-300">{postItem?.description}</p>
                         </div>
+
                     </div>
+                    
                     <div className="relative flex lg:px-16 px-5 md:gap-7 gap-10 py-7 justify-between bg-gray-600">
                         <div onClick={() => likeAndUnlikePost(postItem?.id)} className="flex flex-col items-center gap-2">
                             <motion.img whileTap={{ scale: 0.5 }} src="icons/MAC-003.png" className='cursor-pointer md:w-14 w-24' alt="home" />

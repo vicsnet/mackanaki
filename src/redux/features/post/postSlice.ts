@@ -14,6 +14,7 @@ const initialState: IPostState = {
 };
 
 const postService = new PostService();
+
 // ======= HANDLE API START ==========
 export const getAllPostApi = createAsyncThunk(
   "post/getAll",
@@ -52,6 +53,7 @@ export const likePostApi = createAsyncThunk(
     }
   }
 );
+
 export const getAllPostCommentApi = createAsyncThunk(
   "post/getallcomments",
   async (data: string, thunkAPI) => {
